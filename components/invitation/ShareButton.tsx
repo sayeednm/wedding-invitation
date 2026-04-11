@@ -10,10 +10,12 @@ interface Props {
   accentColor: string
 }
 
-export default function ShareButton({ url, groomName, brideName, accentColor }: Props) {
+export default function ShareButton({ url: urlProp, groomName, brideName, accentColor }: Props) {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  // Pakai URL dari browser langsung agar selalu benar di semua environment
+  const url = typeof window !== 'undefined' ? window.location.href.split('?')[0] : urlProp
   const text = `Undangan Pernikahan ${groomName || ''} & ${brideName || ''}\n${url}`
 
   function copyLink() {
