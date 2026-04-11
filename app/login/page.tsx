@@ -59,6 +59,12 @@ export default function LoginPage() {
             style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
             {loading ? 'Memproses...' : 'Masuk'}
           </button>
+
+          <div className="text-center">
+            <Link href="/forgot-password" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+              Lupa password?
+            </Link>
+          </div>
         </form>
 
         <p className="text-center text-sm text-gray-400 mt-6">
