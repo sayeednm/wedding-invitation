@@ -41,6 +41,20 @@ export default function GuestbookSection({ invitationId, entries, templateId }: 
       setName('')
       setMessage('')
       setSent(true)
+
+      // Kirim notifikasi email ke pemilik undangan
+      try {
+        await fetch('/api/notify-rsvp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-webhook-secret': 'weddingnotif2026',
+          },
+          body: JSON.stringify({ record: data }),
+        })
+      } catch {
+        // Notifikasi gagal tidak mempengaruhi user
+      }
     }
     setLoading(false)
   }
