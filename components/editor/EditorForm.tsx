@@ -327,7 +327,7 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
               { id: 'photo', label: 'Foto', icon: '📸' },
             ].map(opt => (
               <button key={opt.id} type="button"
-                onClick={() => { setForm(p => ({ ...p, cover_type: opt.id })); onSave({ cover_type: opt.id as 'gradient'|'photo'|'pattern' }) }}
+                onClick={() => { setForm(p => ({ ...p, cover_type: opt.id as 'gradient'|'photo'|'pattern' })); onSave({ cover_type: opt.id as 'gradient'|'photo'|'pattern' }) }}
                 className={`p-3 rounded-xl border text-xs text-center transition-all flex flex-col items-center gap-1 ${form.cover_type === opt.id || (!form.cover_type && opt.id === 'gradient') ? 'border-yellow-500 bg-yellow-500/10' : 'border-white/10 hover:border-white/20'}`}>
                 <span className="text-lg">{opt.icon}</span>
                 {opt.label}
