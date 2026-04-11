@@ -395,7 +395,7 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
               { id: 'hexagon', label: 'Heksagon', icon: '⬡' },
             ].map(opt => (
               <button key={opt.id} type="button"
-                onClick={() => { setForm(p => ({ ...p, photo_frame: opt.id })); onPreview?.({ photo_frame: opt.id as 'circle'|'rounded'|'hexagon'|'diamond' }) }}
+                onClick={() => { setForm(p => ({ ...p, photo_frame: opt.id as 'circle'|'oval'|'rounded'|'hexagon'|'diamond' })); onPreview?.({ photo_frame: opt.id as 'circle'|'oval'|'rounded'|'hexagon'|'diamond' }) }}
                 className={`p-2 rounded-xl border text-xs text-center transition-all flex flex-col items-center gap-1 ${form.photo_frame === opt.id ? 'border-yellow-500 bg-yellow-500/10' : 'border-white/10 hover:border-white/20'}`}>
                 <span>{opt.icon}</span>
                 <span className="text-xs">{opt.label}</span>
