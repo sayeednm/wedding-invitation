@@ -27,8 +27,7 @@ export default function TemplateRoyal({ invitation, previewMode = false }: { inv
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#0d0205"
-      bgTo="#4a0e20"
+      bgGradient="linear-gradient(180deg, #0d0205, #4a0e20)"
       patternType="geometric"
       CornerComponent={RoyalCorner}
     />

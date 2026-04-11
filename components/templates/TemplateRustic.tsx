@@ -27,8 +27,7 @@ export default function TemplateRustic({ invitation, previewMode = false }: { in
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#0f0a05"
-      bgTo="#2d1f0e"
+      bgGradient="linear-gradient(180deg, #0f0a05, #2d1f0e)"
       patternType="vine"
       CornerComponent={RusticCorner}
     />

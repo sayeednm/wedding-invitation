@@ -34,8 +34,7 @@ export default function TemplateFloral({ invitation, previewMode = false }: { in
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#0d0509"
-      bgTo="#3d1a2e"
+      bgGradient="linear-gradient(180deg, #0d0509, #3d1a2e)"
       patternType="floral"
       CornerComponent={RoseCorner}
     />

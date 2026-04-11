@@ -35,8 +35,7 @@ export default function TemplateCelestial({ invitation, previewMode = false }: {
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#020202"
-      bgTo="#111111"
+      bgGradient="linear-gradient(180deg, #020202, #111111)"
       patternType="mandala"
       CornerComponent={CelestialCorner}
     />

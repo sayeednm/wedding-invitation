@@ -27,8 +27,7 @@ export default function TemplateMidnight({ invitation, previewMode = false }: { 
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#010409"
-      bgTo="#0f172a"
+      bgGradient="linear-gradient(180deg, #010409, #0f172a)"
       patternType="mandala"
       CornerComponent={MoonStarCorner}
     />

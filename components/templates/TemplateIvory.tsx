@@ -28,8 +28,7 @@ export default function TemplateIvory({ invitation, previewMode = false }: { inv
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#0e0c0a"
-      bgTo="#252018"
+      bgGradient="linear-gradient(180deg, #0e0c0a, #252018)"
       patternType="geometric"
       CornerComponent={IvoryCorner}
     />

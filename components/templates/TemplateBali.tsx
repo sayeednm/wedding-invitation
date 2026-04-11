@@ -31,8 +31,7 @@ export default function TemplateBali({ invitation, previewMode = false }: { invi
       invitation={invitation}
       sections={sections}
       accentColor={accent}
-      bgFrom="#0a0500"
-      bgTo="#2d1a00"
+      bgGradient="linear-gradient(180deg, #0a0500, #2d1a00)"
       patternType="floral"
       CornerComponent={BaliCorner}
     />
