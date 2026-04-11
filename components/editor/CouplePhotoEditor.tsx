@@ -7,6 +7,7 @@ interface CouplePhoto {
   id: string
   photo_url: string
   person: 'groom' | 'bride' | 'couple'
+  sort_order: number
 }
 
 interface Props {
@@ -19,14 +20,14 @@ interface Props {
 
 export default function CouplePhotoEditor({ invitationId, userId, initialPhotos, onPhotosChange, mode = 'individual' }: Props) {
   const [photos, setPhotos] = useState<CouplePhoto[]>(initialPhotos)
-  const [uploading, setUploading] = useState<'groom' | 'bride' | null>(null)
+  const [uploading, setUploading] = useState<'groom' | 'bride' | 'couple' | null>(null)
 
   function updatePhotos(newPhotos: CouplePhoto[]) {
     setPhotos(newPhotos)
     onPhotosChange?.(newPhotos)
   }
 
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>, person: 'groom' | 'bride') {
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>, person: 'groom' | 'bride' | 'couple') {
     const files = Array.from(e.target.files || [])
     if (!files.length) return
     setUploading(person)
@@ -73,7 +74,7 @@ export default function CouplePhotoEditor({ invitationId, userId, initialPhotos,
           {couplePhotos.length < 5 && (
             <label className="block w-full py-2.5 rounded-xl border-2 border-dashed text-center text-xs text-gray-400 cursor-pointer hover:border-yellow-500/40 transition-colors mb-2"
               style={{ borderColor: 'rgba(201,168,76,0.2)' }}>
-              {uploading === 'couple' as any ? 'Mengupload...' : '+ Tambah Foto Berdua'}
+              {uploading === 'couple' ? 'Mengupload...' : '+ Tambah Foto Berdua'}
               <input type="file" accept="image/*" multiple onChange={e => handleUpload(e, 'couple')} className="hidden" disabled={!!uploading}/>
             </label>
           )}
