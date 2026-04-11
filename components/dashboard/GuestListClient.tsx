@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
+import type { Guest, GuestbookEntry } from '@/lib/types'
 
 interface Invitation {
   id: string
@@ -12,30 +14,40 @@ interface Invitation {
   is_published: boolean
 }
 
-interface Guest {
-  id: string
-  name: string
+interface Props {
+  invitation: Invitation
+  initialGuests: Guest[]
+  rsvpStats: { hadir: number; tidak_hadir: number; mungkin: number; total: number }
 }
 
-export default function GuestListClient({ invitation }: { invitation: Invitation }) {
-  const [guests, setGuests] = useState<Guest[]>([])
+export default function GuestListClient({ invitation, initialGuests, rsvpStats }: Props) {
+  const [guests, setGuests] = useState<Guest[]>(initialGuests)
   const [newName, setNewName] = useState('')
   const [copied, setCopied] = useState<string | null>(null)
   const [baseUrl, setBaseUrl] = useState('')
+  const [saving, setSaving] = useState(false)
 
-  useEffect(() => {
-    setBaseUrl(window.location.origin)
-  }, [])
+  useEffect(() => { setBaseUrl(window.location.origin) }, [])
   const inviteUrl = `${baseUrl}/v/${invitation.slug}`
 
-  function addGuest() {
+  async function addGuest() {
     const name = newName.trim()
     if (!name) return
-    setGuests(prev => [...prev, { id: Date.now().toString(), name }])
+    setSaving(true)
+    const supabase = createClient()
+    const { data } = await supabase
+      .from('guests')
+      .insert({ invitation_id: invitation.id, name })
+      .select()
+      .single()
+    if (data) setGuests(prev => [...prev, data])
     setNewName('')
+    setSaving(false)
   }
 
-  function removeGuest(id: string) {
+  async function removeGuest(id: string) {
+    const supabase = createClient()
+    await supabase.from('guests').delete().eq('id', id)
     setGuests(prev => prev.filter(g => g.id !== id))
   }
 
@@ -55,12 +67,13 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
-  function shareAllWhatsApp() {
+  function copyAllLinks() {
     if (!guests.length) return
     const lines = guests.map(g => `• ${g.name}: ${getGuestLink(g.name)}`).join('\n')
     const msg = `Daftar link undangan ${invitation.groom_name} & ${invitation.bride_name}:\n\n${lines}`
     navigator.clipboard.writeText(msg)
-    alert('Semua link sudah disalin ke clipboard!')
+    setCopied('__all__')
+    setTimeout(() => setCopied(null), 2000)
   }
 
   const inputClass = "flex-1 px-4 py-2.5 rounded-xl bg-white/5 border text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500/50 transition-colors text-sm"
@@ -78,7 +91,30 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
         </h1>
       </div>
 
-      {/* Info link dasar */}
+      {/* RSVP Stats */}
+      <div className="glass rounded-2xl p-5 mb-6">
+        <p className="text-xs text-gray-400 mb-3 tracking-widest uppercase">Rekap RSVP</p>
+        <div className="grid grid-cols-4 gap-3 text-center">
+          <div>
+            <p className="text-2xl font-serif-elegant" style={{ color: 'var(--gold)' }}>{rsvpStats.total}</p>
+            <p className="text-xs text-gray-500 mt-1">Total</p>
+          </div>
+          <div>
+            <p className="text-2xl font-serif-elegant text-green-400">{rsvpStats.hadir}</p>
+            <p className="text-xs text-gray-500 mt-1">Hadir</p>
+          </div>
+          <div>
+            <p className="text-2xl font-serif-elegant text-red-400">{rsvpStats.tidak_hadir}</p>
+            <p className="text-xs text-gray-500 mt-1">Tidak Hadir</p>
+          </div>
+          <div>
+            <p className="text-2xl font-serif-elegant text-yellow-400">{rsvpStats.mungkin}</p>
+            <p className="text-xs text-gray-500 mt-1">Mungkin</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Link dasar */}
       <div className="glass rounded-2xl p-5 mb-6">
         <p className="text-xs text-gray-400 mb-2">Link undangan dasar</p>
         <div className="flex items-center gap-2">
@@ -102,11 +138,12 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
             className={inputClass}
             style={{ borderColor: 'rgba(201,168,76,0.2)' }}
             placeholder="Nama tamu (contoh: Budi Santoso)"
+            disabled={saving}
           />
-          <button onClick={addGuest}
-            className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-90 flex-shrink-0"
+          <button onClick={addGuest} disabled={saving}
+            className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all hover:opacity-90 flex-shrink-0 disabled:opacity-50"
             style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
-            + Tambah
+            {saving ? '...' : '+ Tambah'}
           </button>
         </div>
         <p className="text-xs text-gray-500 mt-2">Tekan Enter untuk tambah cepat</p>
@@ -119,10 +156,10 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
             <h2 className="font-serif-elegant text-lg" style={{ color: 'var(--gold)' }}>
               {guests.length} Tamu
             </h2>
-            <button onClick={shareAllWhatsApp}
+            <button onClick={copyAllLinks}
               className="text-xs px-3 py-1.5 rounded-lg transition-all hover:opacity-80"
-              style={{ background: 'rgba(37,211,102,0.15)', color: '#25d366', border: '1px solid rgba(37,211,102,0.3)' }}>
-              📋 Salin Semua Link
+              style={{ background: copied === '__all__' ? 'rgba(74,222,128,0.15)' : 'rgba(37,211,102,0.15)', color: copied === '__all__' ? '#4ade80' : '#25d366', border: '1px solid rgba(37,211,102,0.3)' }}>
+              {copied === '__all__' ? '✓ Disalin' : '📋 Salin Semua Link'}
             </button>
           </div>
 
@@ -135,30 +172,18 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
                   exit={{ opacity: 0, x: -20 }}
                   className="flex items-center gap-2 p-3 rounded-xl"
                   style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.12)' }}>
-
-                  {/* Nama */}
                   <p className="flex-1 text-sm" style={{ color: 'var(--cream)' }}>{guest.name}</p>
-
-                  {/* Tombol aksi */}
                   <div className="flex gap-1.5 flex-shrink-0">
-                    {/* Copy link */}
                     <button onClick={() => copyLink(guest.name)}
                       className="px-2.5 py-1.5 rounded-lg text-xs transition-all"
-                      style={{
-                        background: copied === guest.name ? 'rgba(74,222,128,0.15)' : 'rgba(201,168,76,0.12)',
-                        color: copied === guest.name ? '#4ade80' : 'var(--gold)'
-                      }}>
+                      style={{ background: copied === guest.name ? 'rgba(74,222,128,0.15)' : 'rgba(201,168,76,0.12)', color: copied === guest.name ? '#4ade80' : 'var(--gold)' }}>
                       {copied === guest.name ? '✓' : '🔗'}
                     </button>
-
-                    {/* WhatsApp */}
                     <button onClick={() => shareWhatsApp(guest.name)}
                       className="px-2.5 py-1.5 rounded-lg text-xs transition-all hover:opacity-80"
                       style={{ background: 'rgba(37,211,102,0.15)', color: '#25d366' }}>
                       WA
                     </button>
-
-                    {/* Hapus */}
                     <button onClick={() => removeGuest(guest.id)}
                       className="px-2.5 py-1.5 rounded-lg text-xs transition-all hover:opacity-80"
                       style={{ background: 'rgba(239,68,68,0.12)', color: '#f87171' }}>
@@ -170,7 +195,6 @@ export default function GuestListClient({ invitation }: { invitation: Invitation
             </AnimatePresence>
           </div>
 
-          {/* Preview link salah satu tamu */}
           {guests[0] && (
             <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(201,168,76,0.1)' }}>
               <p className="text-xs text-gray-500 mb-1">Contoh link untuk {guests[0].name}:</p>

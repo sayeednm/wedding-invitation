@@ -8,13 +8,16 @@ import { createClient } from '@/lib/supabase/client'
 import type { Invitation } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
-export default function DashboardInvitationCard({ invitation }: { invitation: Invitation }) {
+export default function DashboardInvitationCard({ invitation }: { invitation: Invitation & { guestbook?: { attendance_status: string }[] } }) {
   const appUrl = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000')
   const shareUrl = `${appUrl}/v/${invitation.slug}`
   const [copied, setCopied] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const router = useRouter()
+
+  const hadirCount = invitation.guestbook?.filter(g => g.attendance_status === 'hadir').length || 0
+  const totalRsvp = invitation.guestbook?.length || 0
 
   function copyLink() {
     navigator.clipboard.writeText(shareUrl).then(() => {
@@ -60,6 +63,11 @@ export default function DashboardInvitationCard({ invitation }: { invitation: In
       <div className="p-4">
         {invitation.event_date && (
           <p className="text-xs text-gray-400 mb-3">{formatDate(invitation.event_date)}</p>
+        )}
+        {totalRsvp > 0 && (
+          <p className="text-xs mb-3" style={{ color: 'var(--gold)' }}>
+            {hadirCount} hadir · {totalRsvp} total RSVP
+          </p>
         )}
         <div className="flex gap-2">
           <Link href={`/dashboard/editor/${invitation.id}`}

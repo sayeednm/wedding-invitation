@@ -89,4 +89,11 @@ export interface Order {
   created_at: string
 }
 
-export type TemplateId = 'luxury' | 'floral' | 'midnight'
+export interface Guest {
+  id: string
+  invitation_id: string
+  name: string
+  created_at: string
+}
+
+export type TemplateId = 'luxury' | 'floral' | 'midnight' | 'royal' | 'rustic' | 'celestial' | 'bali' | 'ivory'

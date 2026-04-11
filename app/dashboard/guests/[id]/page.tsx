@@ -18,5 +18,23 @@ export default async function GuestListPage({ params }: { params: Promise<{ id: 
   if (!invitation) redirect('/dashboard')
   if (!invitation.is_published) redirect(`/dashboard/editor/${id}`)
 
-  return <GuestListClient invitation={invitation} />
+  const [{ data: guests }, { data: guestbook }] = await Promise.all([
+    supabase.from('guests').select('*').eq('invitation_id', id).order('created_at', { ascending: true }),
+    supabase.from('guestbook').select('attendance_status').eq('invitation_id', id),
+  ])
+
+  const rsvpStats = {
+    total: guestbook?.length || 0,
+    hadir: guestbook?.filter(g => g.attendance_status === 'hadir').length || 0,
+    tidak_hadir: guestbook?.filter(g => g.attendance_status === 'tidak_hadir').length || 0,
+    mungkin: guestbook?.filter(g => g.attendance_status === 'mungkin').length || 0,
+  }
+
+  return (
+    <GuestListClient
+      invitation={invitation}
+      initialGuests={guests || []}
+      rsvpStats={rsvpStats}
+    />
+  )
 }

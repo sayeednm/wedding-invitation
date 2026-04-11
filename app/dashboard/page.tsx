@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
   const { data: invitations } = await supabase
     .from('invitations')
-    .select('*')
+    .select('*, guestbook(attendance_status)')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 

@@ -52,18 +52,18 @@ const gold = '#C9A84C'
 const goldLight = '#E8C97A'
 
 const features = [
-  { icon: '✦', title: 'Nama Tamu Personal', desc: 'Setiap tamu menerima undangan dengan namanya sendiri via link unik' },
-  { icon: '🎨', title: '8 Tema Premium', desc: 'Dari Luxury Gold hingga Midnight Elegance, semua dirancang dengan detail' },
-  { icon: '📸', title: 'Galeri Foto', desc: 'Upload hingga 20 foto prewedding yang ditampilkan elegan' },
-  { icon: '🎵', title: 'Musik Latar', desc: 'Tambahkan lagu favorit sebagai pengiring undangan digitalmu' },
-  { icon: '🎬', title: 'Video Prewedding', desc: 'Embed video YouTube langsung di undangan' },
-  { icon: '💌', title: 'Buku Tamu Digital', desc: 'Tamu kirim ucapan dan konfirmasi kehadiran secara online' },
-  { icon: '💳', title: 'Amplop Digital', desc: 'Rekening bank & QRIS untuk hadiah pernikahan' },
-  { icon: '💞', title: 'Love Story', desc: 'Ceritakan perjalanan cinta kalian dalam timeline yang indah' },
-  { icon: '📍', title: 'Navigasi Maps', desc: 'Tamu langsung bisa buka Google Maps ke lokasi acara' },
-  { icon: '👗', title: 'Dresscode', desc: 'Informasikan kode berpakaian dengan tampilan warna yang elegan' },
-  { icon: '🔴', title: 'Live Streaming', desc: 'Bagikan link streaming untuk tamu yang tidak bisa hadir' },
-  { icon: '⏱', title: 'Hitung Mundur', desc: 'Countdown real-time menuju hari bahagiamu' },
+  { icon: '✦', title: 'Nama Tamu Personal', desc: 'Setiap tamu menerima undangan dengan namanya sendiri via link unik — terasa eksklusif' },
+  { icon: '🎨', title: '8 Tema Premium', desc: 'Luxury Gold, Midnight Elegance, Bali Tropical, dan 5 lainnya — semua dirancang detail' },
+  { icon: '📸', title: 'Galeri Foto', desc: 'Upload hingga 20 foto prewedding yang ditampilkan elegan dengan animasi halus' },
+  { icon: '🎵', title: '9 Lagu Preset', desc: 'Pilih dari koleksi lagu romantis siap pakai — A Thousand Years, Komang, Cinta Terakhir & lebih' },
+  { icon: '🎬', title: 'Video Prewedding', desc: 'Embed video YouTube langsung di undangan, tamu bisa nonton tanpa keluar halaman' },
+  { icon: '💌', title: 'Buku Tamu Digital', desc: 'Tamu kirim ucapan dan konfirmasi kehadiran — semua tercatat rapi di dashboard' },
+  { icon: '💳', title: 'Amplop Digital', desc: 'Rekening bank & QRIS untuk hadiah pernikahan, praktis tanpa perlu transfer manual' },
+  { icon: '💞', title: 'Love Story', desc: 'Ceritakan perjalanan cinta kalian dalam timeline yang indah dan mengharukan' },
+  { icon: '📍', title: 'Navigasi Maps', desc: 'Tamu langsung bisa buka Google Maps ke lokasi akad & resepsi dengan satu klik' },
+  { icon: '👗', title: 'Dresscode', desc: 'Informasikan kode berpakaian dengan tampilan warna yang elegan dan jelas' },
+  { icon: '🔴', title: 'Live Streaming', desc: 'Bagikan link streaming untuk tamu yang tidak bisa hadir secara langsung' },
+  { icon: '⏱', title: 'Hitung Mundur', desc: 'Countdown real-time menuju hari bahagiamu yang bikin tamu makin antusias' },
 ]
 
 const steps = [
@@ -178,7 +178,7 @@ export default function HomePage() {
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
             className="text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed"
             style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 18 }}>
-            Undangan digital premium yang membuat tamu terkesan sebelum hari H. Buat, bagikan, dan kenang selamanya — mulai dari Rp 99.000.
+            Undangan digital premium dengan 8 tema eksklusif, musik latar, galeri foto, love story, dan nama tamu personal — semua dalam satu link. Mulai dari Rp 99.000, bayar sekali, pakai selamanya.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
@@ -240,6 +240,58 @@ export default function HomePage() {
                   <div className="text-2xl mb-2">{f.icon}</div>
                   <p className="text-sm font-medium mb-1" style={{ color: 'var(--cream)' }}>{f.title}</p>
                   <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── KENAPA BERBEDA ── */}
+      <section className="py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <p className="text-xs tracking-widest uppercase mb-3" style={{ color: gold }}>Kenapa Pilih Kami</p>
+            <h2 className="font-serif-elegant text-4xl md:text-5xl" style={{ color: 'var(--cream)' }}>
+              Sekali Bayar, 8 Tema Sekaligus
+            </h2>
+            <p className="text-gray-400 mt-4 max-w-xl mx-auto" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 17 }}>
+              Bukan bayar per tema. Dengan Rp 99.000, kamu bebas pakai semua tema kapan saja — ganti sesuka hati sampai ketemu yang paling cocok.
+            </p>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: '🎨',
+                title: 'Ganti Tema Bebas',
+                desc: 'Coba Luxury Gold dulu, kurang cocok? Ganti ke Bali Tropical atau Midnight Elegance. Semua 8 tema bisa dicoba tanpa biaya tambahan.',
+                highlight: '8 tema, 1 harga',
+              },
+              {
+                icon: '♾️',
+                title: 'Akses Selamanya',
+                desc: 'Tidak ada langganan bulanan, tidak ada biaya perpanjangan. Bayar sekali, undangan tetap aktif dan bisa diedit kapan saja selamanya.',
+                highlight: 'Tidak ada biaya tersembunyi',
+              },
+              {
+                icon: '🚀',
+                title: 'Langsung Jadi',
+                desc: 'Isi data, pilih tema, upload foto — undangan siap dibagikan dalam hitungan menit. Tidak perlu desainer, tidak perlu coding.',
+                highlight: 'Siap dalam 10 menit',
+              },
+            ].map((item, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="rounded-3xl p-7 h-full flex flex-col relative overflow-hidden"
+                  style={{ background: `linear-gradient(135deg, ${gold}08, transparent)`, border: `1px solid ${gold}20` }}>
+                  <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none"
+                    style={{ background: `${gold}08` }}/>
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="font-serif-elegant text-xl mb-3" style={{ color: 'var(--cream)' }}>{item.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed flex-1" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 15 }}>{item.desc}</p>
+                  <div className="mt-5 inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full w-fit"
+                    style={{ background: `${gold}15`, color: gold, border: `1px solid ${gold}25` }}>
+                    <Star size={8} color={gold}/> {item.highlight}
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -317,12 +369,16 @@ export default function HomePage() {
             <div className="absolute inset-0 pointer-events-none"
               style={{ background: `radial-gradient(circle at top, ${gold}08, transparent 60%)` }}/>
             <div className="relative z-10">
+              <div className="mb-2">
+                <span className="text-gray-400 line-through text-sm mr-2">Rp 299.000</span>
+                <span className="text-xs px-2 py-1 rounded-full" style={{ background: 'rgba(74,222,128,0.15)', color: '#4ade80' }}>Harga Perkenalan</span>
+              </div>
               <div className="mb-6">
                 <span className="font-serif-elegant text-7xl font-light" style={{ color: gold }}>99K</span>
                 <span className="text-gray-400 ml-2 text-sm">/ selamanya</span>
               </div>
               <div className="grid grid-cols-2 gap-3 mb-8 text-left">
-                {['8 tema premium', 'Galeri 20 foto', 'Video prewedding', 'Love story', 'Buku tamu digital', 'Amplop digital', 'Live streaming', 'Revisi tanpa batas'].map(f => (
+                {['8 tema premium', '9 lagu preset', 'Galeri 20 foto', 'Video prewedding', 'Love story timeline', 'Buku tamu + RSVP', 'Amplop digital', 'Live streaming', 'Nama tamu personal', 'Revisi tanpa batas'].map(f => (
                   <div key={f} className="flex items-center gap-2 text-sm text-gray-300">
                     <Star size={8} color={gold}/> {f}
                   </div>
