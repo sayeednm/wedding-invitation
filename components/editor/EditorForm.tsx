@@ -354,7 +354,7 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
               { id: 'individual', label: 'Foto Individual', icon: '🧑‍🤝‍🧑' },
             ].map(opt => (
               <button key={opt.id} type="button"
-                onClick={() => { setForm(p => ({ ...p, photo_mode: opt.id })); onPreview?.({ photo_mode: opt.id as 'single'|'individual' }) }}
+                onClick={() => { setForm(p => ({ ...p, photo_mode: opt.id as 'single' | 'individual' })); onPreview?.({ photo_mode: opt.id as 'single'|'individual' }) }}
                 className={`p-3 rounded-xl border text-xs text-center transition-all flex flex-col items-center gap-1 ${(form.photo_mode || 'single') === opt.id ? 'border-yellow-500 bg-yellow-500/10' : 'border-white/10 hover:border-white/20'}`}>
                 <span className="text-lg">{opt.icon}</span>
                 {opt.label}
