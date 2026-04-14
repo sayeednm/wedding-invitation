@@ -35,11 +35,11 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     love_story: 'Pertama Bertemu|Januari 2021|Kami pertama kali bertemu di sebuah acara seminar di Jakarta. Sebuah pertemuan sederhana yang ternyata menjadi awal dari segalanya.\nMulai Dekat|Juni 2021|Dari teman biasa, kami mulai sering berbagi cerita dan tawa. Tanpa disadari, hati kami semakin dekat satu sama lain.\nResmi Bersama|Desember 2021|Di bawah langit Jakarta yang cerah, Rizky mengungkapkan perasaannya. Dan Amara menjawab dengan senyuman yang tak terlupakan.\nLamaran|Maret 2024|Dengan penuh cinta dan doa, Rizky melamar Amara di hadapan kedua keluarga. Sebuah momen yang mengharukan dan penuh kebahagiaan.',
     video_url: null,
     live_streaming_url: null,
-    cover_type: 'gradient',
+    cover_type: 'photo',
     silhouette_variant: 'standing',
     photo_frame: 'oval',
     dresscode_enabled: true,
-    photo_mode: 'single',
+    photo_mode: 'individual',
     is_published: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -84,6 +84,10 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
       { id: 'demo-g-2', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80', caption: 'Penuh cinta', sort_order: 1, created_at: new Date().toISOString() },
       { id: 'demo-g-3', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80', caption: 'Bahagia bersama', sort_order: 2, created_at: new Date().toISOString() },
       { id: 'demo-g-4', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', caption: 'Kenangan indah', sort_order: 3, created_at: new Date().toISOString() },
+    ] : [],
+    couple_photos: withPhotos ? [
+      { id: 'demo-cp-1', photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80', person: 'groom' as const, sort_order: 0 },
+      { id: 'demo-cp-2', photo_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80', person: 'bride' as const, sort_order: 0 },
     ] : [],
   }
 }

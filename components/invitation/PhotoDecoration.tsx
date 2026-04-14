@@ -10,12 +10,12 @@ interface Props {
 export default function PhotoDecoration({ accentColor, templateId, size, frame = 'circle' }: Props) {
   // Ukuran SVG lebih besar dari foto
   const pad = size * 0.35
-  const sw = frame === 'oval' ? Math.round(size * 0.82) + pad * 2 : size + pad * 2
+  const sw = frame === 'oval' ? Math.round(size * 0.78) + pad * 2 : size + pad * 2
   const sh = size + pad * 2
   const cx = sw / 2
   const cy = sh / 2
   // Radius ornamen — sedikit di luar bingkai foto
-  const rx = (frame === 'oval' ? Math.round(size * 0.82) / 2 : size / 2) + pad * 0.55
+  const rx = (frame === 'oval' ? Math.round(size * 0.78) / 2 : size / 2) + pad * 0.55
   const ry = size / 2 + pad * 0.55
 
   const isFloral = ['floral', 'bali', 'luxury'].includes(templateId)

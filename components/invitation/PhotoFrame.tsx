@@ -12,7 +12,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
   const s = size
 
   if (frame === 'oval') {
-    const w = Math.round(s * 0.82)
+    const w = Math.round(s * 0.78)
     const h = s
     return (
       <div className="relative flex items-center justify-center" style={{ width: w, height: h }}>
