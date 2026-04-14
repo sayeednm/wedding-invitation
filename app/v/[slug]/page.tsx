@@ -20,6 +20,7 @@ import VideoSection from '@/components/invitation/VideoSection'
 import LoveStorySection from '@/components/invitation/LoveStorySection'
 import AmbientEffect from '@/components/invitation/AmbientEffect'
 import ShareButton from '@/components/invitation/ShareButton'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -92,6 +93,7 @@ export default async function InvitationPage({ params, searchParams }: {
   const theme = themeAccent[invitation.template_id as string] || themeAccent.luxury
 
   return (
+    <ErrorBoundary>
     <InvitationWrapper
       invitation={invitation}
       guestName={to}
@@ -111,5 +113,6 @@ export default async function InvitationPage({ params, searchParams }: {
         <TemplateComponent invitation={invitation} />
       </div>
     </InvitationWrapper>
+    </ErrorBoundary>
   )
 }
