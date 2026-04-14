@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { compressImage } from '@/lib/imageCompress'
 
 interface CouplePhoto {
   id: string
@@ -34,7 +35,8 @@ export default function CouplePhotoEditor({ invitationId, userId, initialPhotos,
     const supabase = createClient()
     const newPhotos: CouplePhoto[] = []
 
-    for (const file of files.slice(0, 5)) {
+    for (const rawFile of files.slice(0, 5)) {
+      const file = await compressImage(rawFile, 1200, 1200, 0.85)
       const path = `${userId}/${invitationId}/couple-${person}-${Date.now()}-${Math.random().toString(36).slice(2)}`
       const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
       if (!error && data) {

@@ -50,6 +50,12 @@ export default function DashboardInvitationCard({ invitation }: { invitation: In
     router.refresh()
   }
 
+  async function handleArchive() {
+    const supabase = createClient()
+    await supabase.from('invitations').update({ is_archived: true }).eq('id', invitation.id)
+    router.refresh()
+  }
+
   async function exportCSV() {
     const supabase = createClient()
     const { data: guestbook } = await supabase
@@ -158,6 +164,11 @@ export default function DashboardInvitationCard({ invitation }: { invitation: In
             </button>
           </div>
         )}
+        <button onClick={handleArchive}
+          className="block w-full mt-2 py-2 rounded-lg text-xs text-center font-medium border transition-all hover:bg-white/5"
+          style={{ borderColor: 'rgba(255,255,255,0.08)', color: '#6b7280' }}>
+          📦 Arsipkan
+        </button>
       </div>
     </motion.div>
   )

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { Invitation } from '@/lib/types'
 import { createClient } from '@/lib/supabase/client'
+import { compressImage } from '@/lib/imageCompress'
 import DigitalGiftEditor from './DigitalGiftEditor'
 import GalleryEditor from './GalleryEditor'
 import CouplePhotoEditor from './CouplePhotoEditor'
@@ -63,12 +64,35 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     slug: invitation.slug || '',
   })
   const [uploading, setUploading] = useState(false)
+  const [slugStatus, setSlugStatus] = useState<'idle' | 'checking' | 'ok' | 'taken' | 'invalid'>('idle')
+  const [slugTimer, setSlugTimer] = useState<ReturnType<typeof setTimeout> | null>(null)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const { name, value } = e.target
     const updated = { ...form, [name]: value }
     setForm(updated)
-    // Real-time preview — convert dates for preview
+
+    if (name === 'slug') {
+      // Validate & check slug availability with debounce
+      const cleaned = value.toLowerCase().replace(/[^a-z0-9-]/g, '')
+      if (cleaned !== value) setForm(p => ({ ...p, slug: cleaned }))
+      if (!cleaned || cleaned.length < 3) { setSlugStatus('invalid'); return }
+      setSlugStatus('checking')
+      if (slugTimer) clearTimeout(slugTimer)
+      const t = setTimeout(async () => {
+        const supabase = createClient()
+        const { data } = await supabase
+          .from('invitations')
+          .select('id')
+          .eq('slug', cleaned)
+          .neq('id', invitation.id)
+          .maybeSingle()
+        setSlugStatus(data ? 'taken' : 'ok')
+      }, 600)
+      setSlugTimer(t)
+      return
+    }
+
     if (name === 'event_date' || name === 'akad_date') {
       onPreview?.({ [name]: value ? new Date(value).toISOString() : null })
     } else {
@@ -80,9 +104,10 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
+    const compressed = await compressImage(file, 1920, 1920, 0.85)
     const supabase = createClient()
     const path = `${userId}/${invitation.id}/${field}-${Date.now()}`
-    const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
+    const { data, error } = await supabase.storage.from('wedding-photos').upload(path, compressed, { upsert: true })
     if (!error && data) {
       const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
       onPreview?.({ [field]: urlData.publicUrl })
@@ -116,13 +141,17 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
         <h3 className="font-serif-elegant text-lg" style={{ color: 'var(--gold)' }}>Link Undangan</h3>
         <p className="text-xs text-gray-500">Kustomisasi link undanganmu agar mudah diingat</p>
         <div className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.2)' }}>
+          style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${slugStatus === 'taken' ? 'rgba(239,68,68,0.4)' : slugStatus === 'ok' ? 'rgba(74,222,128,0.4)' : 'rgba(201,168,76,0.2)'}` }}>
           <span className="text-gray-500 text-xs whitespace-nowrap">/v/</span>
           <input name="slug" value={form.slug || ''} onChange={handleChange}
             className="flex-1 bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm"
             placeholder="nama-mempelai" />
+          {slugStatus === 'checking' && <span className="text-xs text-gray-500 flex-shrink-0">⏳</span>}
+          {slugStatus === 'ok' && <span className="text-xs text-green-400 flex-shrink-0">✓ Tersedia</span>}
+          {slugStatus === 'taken' && <span className="text-xs text-red-400 flex-shrink-0">✗ Sudah dipakai</span>}
+          {slugStatus === 'invalid' && <span className="text-xs text-yellow-400 flex-shrink-0">Min. 3 karakter</span>}
         </div>
-        <p className="text-xs text-gray-600">Gunakan huruf kecil dan tanda hubung. Contoh: dimas-dan-putri</p>
+        <p className="text-xs text-gray-600">Hanya huruf kecil (a-z), angka, dan tanda hubung (-)</p>
       </div>
 
       {/* Template */}
@@ -408,7 +437,14 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
           <input name="music_url" value={form.music_url} onChange={handleChange}
             className={inputClass} style={borderStyle} placeholder="https://..." />
         </div>
-        {uploading && <p className="text-xs text-yellow-400">Mengupload foto...</p>}
+        {uploading && (
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
+              <div className="h-full rounded-full animate-pulse" style={{ background: 'var(--gold)', width: '60%' }} />
+            </div>
+            <p className="text-xs text-yellow-400 flex-shrink-0">Mengupload & mengkompresi foto...</p>
+          </div>
+        )}
       </div>
 
       <button type="submit" disabled={saving}

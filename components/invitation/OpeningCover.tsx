@@ -44,16 +44,20 @@ function GoldParticles({ color }: { color: string }) {
 export default function OpeningCover({ invitation, guestName, onOpen, accentColor, bgFrom, bgTo, CornerComponent = FlowerCorner }: Props) {
   const [visible, setVisible] = useState(true)
   const [showContent, setShowContent] = useState(false)
+  // Respect prefers-reduced-motion
+  const prefersReduced = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false
 
   useEffect(() => {
-    const t = setTimeout(() => setShowContent(true), 300)
+    // Jika reduced motion, langsung tampilkan konten tanpa delay
+    const t = setTimeout(() => setShowContent(true), prefersReduced ? 0 : 300)
     return () => clearTimeout(t)
-  }, [])
+  }, [prefersReduced])
 
   function handleOpen() {
-    // Fade out halaman pembuka, lalu panggil onOpen
     setVisible(false)
-    setTimeout(onOpen, 700)
+    setTimeout(onOpen, prefersReduced ? 0 : 700)
   }
 
   return (

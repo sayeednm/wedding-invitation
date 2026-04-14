@@ -138,6 +138,21 @@ export default function SplitLayout({ invitation, sections, accentColor, bgGradi
     return () => el.removeEventListener('scroll', handler)
   }, [sections.length])
 
+  // Keyboard navigation (desktop)
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault()
+        scrollTo(Math.min(activeSection + 1, sections.length - 1))
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault()
+        scrollTo(Math.max(activeSection - 1, 0))
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [activeSection, sections.length])
+
   function scrollTo(i: number) {
     const target = sectionRefs.current[i]
     if (!target) return

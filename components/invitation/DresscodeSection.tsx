@@ -10,7 +10,11 @@ interface Props {
 
 export default function DresscodeSection({ color, note, accentColor }: Props) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className="px-6 py-8" style={{ background: 'rgba(0,0,0,0.2)' }}>
       <p className="text-xs tracking-[0.4em] uppercase mb-2 text-center" style={{ color: accentColor }}>Dresscode</p>
       <h2 className="text-center mb-6" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 22, color: 'white' }}>

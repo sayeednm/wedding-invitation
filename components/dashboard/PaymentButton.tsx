@@ -37,14 +37,10 @@ export default function PaymentButton({ userId, userEmail }: Props) {
   }
 
   return (
-    <>
-      <script src={process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL}
-        data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY} async />
-      <button onClick={handlePayment} disabled={loading}
-        className="px-6 py-3 rounded-full font-medium text-sm transition-all hover:opacity-90 disabled:opacity-50 whitespace-nowrap"
-        style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
-        {loading ? 'Memproses...' : 'Bayar Rp 99.000'}
-      </button>
-    </>
+    <button onClick={handlePayment} disabled={loading}
+      className="px-6 py-3 rounded-full font-medium text-sm transition-all hover:opacity-90 disabled:opacity-50 whitespace-nowrap"
+      style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
+      {loading ? 'Memproses...' : 'Bayar Rp 99.000'}
+    </button>
   )
 }

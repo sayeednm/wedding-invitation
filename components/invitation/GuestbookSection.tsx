@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import type { GuestbookEntry } from '@/lib/types'
 
 interface Props {
@@ -24,23 +23,39 @@ export default function GuestbookSection({ invitationId, entries, templateId }: 
   const [attendance, setAttendance] = useState<'hadir' | 'tidak_hadir' | 'mungkin'>('hadir')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) return
+    const trimmedName = name.trim()
+    if (!trimmedName || trimmedName.length < 2) {
+      setError('Nama minimal 2 karakter')
+      return
+    }
+    setError('')
     setLoading(true)
-    const supabase = createClient()
-    const { data } = await supabase.from('guestbook').insert({
-      invitation_id: invitationId,
-      guest_name: name,
-      message,
-      attendance_status: attendance,
-    }).select().single()
-    if (data) {
-      setList(prev => [data, ...prev])
-      setName('')
-      setMessage('')
-      setSent(true)
+    try {
+      const res = await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          invitation_id: invitationId,
+          guest_name: name,
+          message,
+          attendance_status: attendance,
+        }),
+      })
+      const json = await res.json()
+      if (res.ok && json.data) {
+        setList(prev => [json.data, ...prev])
+        setName('')
+        setMessage('')
+        setSent(true)
+      } else {
+        setError(json.error || 'Gagal mengirim ucapan')
+      }
+    } catch {
+      setError('Gagal mengirim ucapan')
     }
     setLoading(false)
   }
@@ -61,10 +76,12 @@ export default function GuestbookSection({ invitationId, entries, templateId }: 
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-3 mb-8">
-          <input value={name} onChange={e => setName(e.target.value)} required
+          <input value={name} onChange={e => { setName(e.target.value); setError('') }} required
             className={inputClass} style={inputStyle} placeholder="Nama Anda" />
           <textarea value={message} onChange={e => setMessage(e.target.value)} rows={3}
-            className={inputClass} style={inputStyle} placeholder="Ucapan & doa untuk mempelai..." />
+            className={inputClass} style={inputStyle} placeholder="Ucapan & doa untuk mempelai..."
+            maxLength={500} />
+          <p className="text-xs text-right" style={{ color: `${theme.accent}50` }}>{message.length}/500</p>
 
           {/* Konfirmasi kehadiran — tombol pilihan, bukan dropdown */}
           <div>
@@ -88,6 +105,7 @@ export default function GuestbookSection({ invitationId, entries, templateId }: 
               ))}
             </div>
           </div>
+          {error && <p className="text-xs text-red-400">{error}</p>}
           <button type="submit" disabled={loading}
             className="w-full py-2.5 rounded-full text-sm font-medium transition-all hover:opacity-90 disabled:opacity-50"
             style={{ background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent}cc)`, color: '#0D1B2A' }}>

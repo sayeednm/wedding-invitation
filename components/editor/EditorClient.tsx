@@ -49,8 +49,77 @@ export default function EditorClient({ invitation, userId }: Props) {
   }
 
   async function handlePublish() {
+    // Validasi field wajib sebelum publish
+    if (!data.groom_name || !data.bride_name) {
+      alert('Lengkapi nama mempelai pria dan wanita sebelum publikasi.')
+      return
+    }
+    if (!data.event_date && !data.akad_date) {
+      alert('Lengkapi tanggal acara (akad atau resepsi) sebelum publikasi.')
+      return
+    }
+    if (!data.location_name && !data.akad_location) {
+      alert('Lengkapi lokasi acara sebelum publikasi.')
+      return
+    }
+    if (!data.is_published) {
+      const ok = confirm('Publikasi undangan? Undangan akan bisa diakses oleh siapapun yang punya link.')
+      if (!ok) return
+    }
     await handleSave({ is_published: !data.is_published })
     router.refresh()
+  }
+
+  async function handleDuplicate() {
+    const ok = confirm('Duplikasi undangan ini? Semua data akan disalin ke undangan baru.')
+    if (!ok) return
+    const supabase = createClient()
+    const newSlug = `${data.slug}-copy-${Date.now().toString(36)}`
+    const { data: newInv } = await supabase
+      .from('invitations')
+      .insert({
+        user_id: userId,
+        slug: newSlug,
+        template_id: data.template_id,
+        bride_name: data.bride_name,
+        groom_name: data.groom_name,
+        groom_full_name: data.groom_full_name,
+        groom_father: data.groom_father,
+        groom_mother: data.groom_mother,
+        groom_instagram: data.groom_instagram,
+        bride_full_name: data.bride_full_name,
+        bride_father: data.bride_father,
+        bride_mother: data.bride_mother,
+        bride_instagram: data.bride_instagram,
+        event_date: data.event_date,
+        location_name: data.location_name,
+        location_maps_url: data.location_maps_url,
+        akad_date: data.akad_date,
+        akad_location: data.akad_location,
+        akad_maps_url: data.akad_maps_url,
+        music_url: data.music_url,
+        cover_photo_url: data.cover_photo_url,
+        couple_photo_url: data.couple_photo_url,
+        opening_text: data.opening_text,
+        quran_verse: data.quran_verse,
+        quran_surah: data.quran_surah,
+        dresscode_enabled: data.dresscode_enabled,
+        dresscode_color: data.dresscode_color,
+        dresscode_note: data.dresscode_note,
+        cover_type: data.cover_type,
+        silhouette_variant: data.silhouette_variant,
+        photo_frame: data.photo_frame,
+        photo_mode: data.photo_mode,
+        video_url: data.video_url,
+        love_story: data.love_story,
+        live_streaming_url: data.live_streaming_url,
+        is_published: false,
+      })
+      .select()
+      .single()
+    if (newInv) {
+      router.push(`/dashboard/editor/${newInv.id}`)
+    }
   }
 
   return (
@@ -87,6 +156,11 @@ export default function EditorClient({ invitation, userId }: Props) {
             style={{ borderColor: 'rgba(201,168,76,0.3)', color: data.is_published ? '#4ade80' : 'var(--gold)' }}>
             {data.is_published ? '✓ Dipublikasi' : 'Publikasi'}
           </button>
+          <button onClick={handleDuplicate} title="Duplikasi undangan"
+            className="px-3 py-2 rounded-full text-sm border transition-all hover:bg-white/5"
+            style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#9ca3af' }}>
+            ⧉
+          </button>
           {data.is_published && (
             <a href={`/v/${data.slug}`} target="_blank"
               className="px-5 py-2 rounded-full text-sm font-medium transition-all hover:opacity-90"
@@ -98,7 +172,7 @@ export default function EditorClient({ invitation, userId }: Props) {
       </div>
 
       {/* Split Screen */}
-      <div className="grid md:grid-cols-2 gap-6" style={{ height: 'calc(100vh - 160px)' }}>
+      <div className="grid md:grid-cols-2 gap-6" style={{ height: 'calc(100dvh - 160px)' }}>
         {/* Left: Form */}
         <div className={`overflow-y-auto pr-1 ${mobilePreview ? 'hidden md:block' : 'block'}`}>
         <EditorForm invitation={data} onSave={handleSave} onPreview={(updates) => setTimeout(() => setData(prev => ({ ...prev, ...updates })), 0)} saving={saving} userId={userId} />

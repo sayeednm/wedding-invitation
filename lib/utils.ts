@@ -11,12 +11,17 @@ export function generateSlug(groomName: string, brideName: string): string {
   return `${clean(groomName)}-dan-${clean(brideName)}-${Date.now().toString(36)}`
 }
 
+/**
+ * Format tanggal ke format Indonesia.
+ * Menggunakan timeZone Asia/Jakarta agar konsisten di semua environment (server/client).
+ */
 export function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString('id-ID', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'Asia/Jakarta',
   })
 }
 
@@ -24,5 +29,15 @@ export function formatTime(dateString: string): string {
   return new Date(dateString).toLocaleTimeString('id-ID', {
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: 'Asia/Jakarta',
+  })
+}
+
+export function formatDateShort(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Asia/Jakarta',
   })
 }

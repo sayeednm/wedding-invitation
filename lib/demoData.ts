@@ -41,6 +41,7 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     dresscode_enabled: true,
     photo_mode: 'individual',
     is_published: true,
+    is_archived: false,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     digital_gifts: [

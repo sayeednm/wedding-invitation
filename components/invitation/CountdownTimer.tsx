@@ -47,7 +47,7 @@ export default function CountdownTimer({ eventDate, accentColor }: Props) {
         {units.map(u => (
           <div key={u.label} className="text-center rounded-xl py-3"
             style={{ background: `${accentColor}12`, border: `1px solid ${accentColor}30` }}>
-            <p className="text-2xl font-bold" style={{ color: accentColor, fontFamily: 'Cormorant Garamond, serif' }}>
+            <p className="text-2xl font-bold tabular-nums" style={{ color: accentColor, fontFamily: 'Cormorant Garamond, serif' }}>
               {String(u.value).padStart(2, '0')}
             </p>
             <p className="text-xs text-gray-400 mt-1">{u.label}</p>

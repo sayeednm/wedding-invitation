@@ -124,10 +124,10 @@ export default function PhoneMockup({ theme, index }: Props) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8, scale: 1.02 }}
-      className="flex flex-col items-center gap-3 cursor-pointer group">
+      className="flex flex-col items-center gap-2 md:gap-3 cursor-pointer group">
 
-      {/* Phone frame */}
-      <div className="relative" style={{ width: 120, height: 240 }}>
+      {/* Phone frame — lebih kecil di mobile */}
+      <div className="relative" style={{ width: 'clamp(90px, 22vw, 120px)', height: 'clamp(180px, 44vw, 240px)' }}>
         {/* Outer frame */}
         <div className="absolute inset-0 rounded-[22px] shadow-2xl"
           style={{
@@ -167,8 +167,8 @@ export default function PhoneMockup({ theme, index }: Props) {
 
       {/* Label */}
       <div className="text-center">
-        <p className="text-sm font-medium" style={{ color: 'var(--cream)' }}>{theme.name}</p>
-        <p className="text-xs mt-1" style={{ color: `${theme.accent}70` }}>Klik untuk lihat contoh</p>
+        <p className="text-xs md:text-sm font-medium" style={{ color: 'var(--cream)' }}>{theme.name}</p>
+        <p className="text-xs mt-0.5 hidden sm:block" style={{ color: `${theme.accent}70` }}>Klik untuk lihat contoh</p>
       </div>
     </motion.div>
     </Link>

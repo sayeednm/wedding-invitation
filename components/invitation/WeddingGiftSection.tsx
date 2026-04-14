@@ -112,7 +112,12 @@ function BankCard({ gift, accentColor }: { gift: DigitalGift; accentColor: strin
         {gift.qris_url && (
           <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
             <p className="text-xs text-gray-500 mb-2">QRIS</p>
-            <img src={gift.qris_url} alt="QRIS" className="w-28 h-28 rounded-xl object-cover"/>
+            <img
+              src={gift.qris_url}
+              alt="QRIS"
+              className="w-28 h-28 rounded-xl object-cover"
+              onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+            />
           </div>
         )}
       </div>

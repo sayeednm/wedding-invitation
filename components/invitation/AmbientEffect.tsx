@@ -25,7 +25,7 @@ function FallingPetals({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {petals.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -59,7 +59,7 @@ function FallingStars({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {stars.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -104,7 +104,7 @@ function FallingLeaves({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {leaves.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -139,7 +139,7 @@ function FallingCrystals({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {crystals.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -173,7 +173,7 @@ function GoldSparks({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {sparks.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -10 }}
@@ -193,6 +193,8 @@ function GoldSparks({ color, count }: { color: string; count: number }) {
   )
 }
 
+// AmbientEffect — z-index 3 tapi tidak pakai fixed agar tidak overlap lightbox/modal
+// Gunakan absolute di dalam container undangan
 export default function AmbientEffect({ type, color, count = 12 }: Props) {
   switch (type) {
     case 'petals':   return <FallingPetals color={color} count={count}/>

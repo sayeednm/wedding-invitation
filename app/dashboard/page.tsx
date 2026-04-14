@@ -14,7 +14,19 @@ export default async function DashboardPage() {
     .from('invitations')
     .select('*, guestbook(attendance_status)')
     .eq('user_id', user.id)
+    .eq('is_archived', false)
     .order('created_at', { ascending: false })
+
+  const { data: archivedInvitations } = await supabase
+    .from('invitations')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('is_archived', true)
+
+  // Global stats across all invitations
+  const totalRsvp = invitations?.reduce((sum, inv) => sum + (inv.guestbook?.length || 0), 0) || 0
+  const totalHadir = invitations?.reduce((sum, inv) =>
+    sum + (inv.guestbook?.filter((g: { attendance_status: string }) => g.attendance_status === 'hadir').length || 0), 0) || 0
 
   return (
     <div>
@@ -36,11 +48,36 @@ export default async function DashboardPage() {
         </div>
       )}
 
+      {/* Global Stats */}
+      {profile?.is_premium && (invitations?.length || 0) > 0 && (
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="glass rounded-2xl p-4 text-center">
+            <p className="text-2xl font-serif-elegant" style={{ color: 'var(--gold)' }}>{invitations?.length || 0}</p>
+            <p className="text-xs text-gray-500 mt-1">Undangan</p>
+          </div>
+          <div className="glass rounded-2xl p-4 text-center">
+            <p className="text-2xl font-serif-elegant text-green-400">{totalHadir}</p>
+            <p className="text-xs text-gray-500 mt-1">Konfirmasi Hadir</p>
+          </div>
+          <div className="glass rounded-2xl p-4 text-center">
+            <p className="text-2xl font-serif-elegant" style={{ color: 'var(--gold)' }}>{totalRsvp}</p>
+            <p className="text-xs text-gray-500 mt-1">Total RSVP</p>
+          </div>
+        </div>
+      )}
+
       {/* Invitations Grid */}
       {profile?.is_premium ? (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <p className="text-gray-400 text-sm">{invitations?.length || 0} undangan dibuat</p>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-400 text-sm">{invitations?.length || 0} undangan aktif</p>
+              {(archivedInvitations?.length || 0) > 0 && (
+                <Link href="/dashboard/archived" className="text-xs text-gray-600 hover:text-gray-400 transition-colors underline">
+                  {archivedInvitations?.length} diarsipkan
+                </Link>
+              )}
+            </div>
             <Link href="/dashboard/editor/new"
               className="px-5 py-2 rounded-full text-sm font-medium transition-all hover:opacity-90"
               style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>

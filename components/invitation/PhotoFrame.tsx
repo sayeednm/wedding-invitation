@@ -19,7 +19,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
         <div className="absolute" style={{ inset: -8, borderRadius: '50%', border: `1px solid ${accentColor}20` }}/>
         <div className="absolute" style={{ inset: -3, borderRadius: '50%', border: `1px solid ${accentColor}35` }}/>
         <div style={{ width: w, height: h, borderRadius: '50%', overflow: 'hidden', border: `2px solid ${accentColor}`, boxShadow: `0 0 30px ${accentColor}30, 0 8px 32px rgba(0,0,0,0.4)` }}>
-          <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}/>
+          <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}/>
         </div>
       </div>
     )
@@ -40,7 +40,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
             fill="none" stroke={accentColor} strokeWidth="0.5" opacity="0.3"/>
         </svg>
         <div style={{ width: s * 0.86, height: s * 0.86, clipPath: 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)', overflow: 'hidden' }}>
-          <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         </div>
       </div>
     )
@@ -61,7 +61,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
             fill="none" stroke={accentColor} strokeWidth="0.5" opacity="0.3"/>
         </svg>
         <div style={{ width: s * 0.88, height: s * 0.88, clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', overflow: 'hidden' }}>
-          <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         </div>
       </div>
     )
@@ -71,7 +71,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
     return (
       <div className="relative" style={{ width: s, height: s }}>
         <div className="overflow-hidden" style={{ width: s, height: s, borderRadius: s * 0.15, border: `2px solid ${accentColor}`, boxShadow: `0 0 30px ${accentColor}30` }}>
-          <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         </div>
         {/* Corner ornaments */}
         {[['0,0','0'], [`${s-16},0`,'90'], ['0,'+`${s-16}`,'-90'], [`${s-16},${s-16}`,'180']].map(([pos, rot], i) => {
@@ -91,7 +91,7 @@ export default function PhotoFrame({ src, alt = '', frame = 'circle', size = 192
   return (
     <div className="relative" style={{ width: s, height: s }}>
       <div className="rounded-full overflow-hidden" style={{ width: s, height: s, border: `2px solid ${accentColor}`, boxShadow: `0 0 30px ${accentColor}30` }}>
-        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div className="absolute rounded-full" style={{ inset: -8, border: `1px solid ${accentColor}25` }}/>
       <div className="absolute rounded-full" style={{ inset: -16, border: `1px solid ${accentColor}12` }}/>
@@ -125,7 +125,7 @@ export function OvalFrame({ src, alt = '', size = 192, accentColor = '#C9A84C' }
         border: `2px solid ${accentColor}`,
         boxShadow: `0 0 30px ${accentColor}30, 0 8px 32px rgba(0,0,0,0.4)`,
       }}>
-        <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}/>
+        <img src={src} alt={alt} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}/>
       </div>
     </div>
   )
