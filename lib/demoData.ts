@@ -1,6 +1,6 @@
 import type { Invitation } from './types'
 
-export function getDemoInvitation(templateId: string): Invitation {
+export function getDemoInvitation(templateId: string, withPhotos = true): Invitation {
   return {
     id: `demo-${templateId}`,
     user_id: 'demo',
@@ -23,10 +23,10 @@ export function getDemoInvitation(templateId: string): Invitation {
     akad_location: 'Masjid Al-Ikhlas, Jakarta Selatan',
     akad_maps_url: 'https://maps.google.com',
     music_url: null,
-    cover_photo_url: null,
-    couple_photo_url: null,
-    groom_photo_url: null,
-    bride_photo_url: null,
+    cover_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80' : null,
+    couple_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' : null,
+    groom_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80' : null,
+    bride_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80' : null,
     opening_text: 'Bismillahirrahmanirrahim\n\nDengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada pernikahan kami.',
     quran_verse: 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati.',
     quran_surah: 'QS. Ar-Rum: 21',
@@ -79,6 +79,11 @@ export function getDemoInvitation(templateId: string): Invitation {
         created_at: new Date().toISOString(),
       },
     ],
-    gallery: [],
+    gallery: withPhotos ? [
+      { id: 'demo-g-1', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80', caption: 'Momen bersama', sort_order: 0, created_at: new Date().toISOString() },
+      { id: 'demo-g-2', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80', caption: 'Penuh cinta', sort_order: 1, created_at: new Date().toISOString() },
+      { id: 'demo-g-3', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80', caption: 'Bahagia bersama', sort_order: 2, created_at: new Date().toISOString() },
+      { id: 'demo-g-4', invitation_id: `demo-${templateId}`, photo_url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80', caption: 'Kenangan indah', sort_order: 3, created_at: new Date().toISOString() },
+    ] : [],
   }
 }

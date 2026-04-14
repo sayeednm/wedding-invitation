@@ -35,11 +35,16 @@ export async function generateMetadata({ params }: { params: Promise<{ theme: st
   }
 }
 
-export default async function DemoPage({ params }: { params: Promise<{ theme: string }> }) {
+export default async function DemoPage({ params, searchParams }: {
+  params: Promise<{ theme: string }>
+  searchParams: Promise<{ photos?: string }>
+}) {
   const { theme } = await params
+  const { photos } = await searchParams
   if (!validThemes.includes(theme)) notFound()
 
-  const invitation = getDemoInvitation(theme)
+  const withPhotos = photos !== 'false'
+  const invitation = getDemoInvitation(theme, withPhotos)
   const config = themeConfig[theme]
 
   const templateMap: Record<string, React.ComponentType<{ invitation: typeof invitation }>> = {
@@ -61,7 +66,8 @@ export default async function DemoPage({ params }: { params: Promise<{ theme: st
       accentColor={config.accent}
       bgFrom={config.bgFrom}
       bgTo={config.bgTo}
-      themeName={config.name}>
+      themeName={config.name}
+      withPhotos={withPhotos}>
       <div className="relative">
         {invitation.music_url && <MusicPlayer url={invitation.music_url} />}
         <TemplateComponent invitation={invitation} />

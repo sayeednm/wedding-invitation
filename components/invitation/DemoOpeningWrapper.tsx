@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 import OpeningCover from './OpeningCover'
 import type { Invitation } from '@/lib/types'
 
@@ -12,11 +13,18 @@ interface Props {
   bgFrom: string
   bgTo: string
   themeName: string
+  withPhotos?: boolean
   children: React.ReactNode
 }
 
-export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bgTo, themeName, children }: Props) {
+export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bgTo, themeName, withPhotos = true, children }: Props) {
   const [opened, setOpened] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  function togglePhotos() {
+    router.push(withPhotos ? `${pathname}?photos=false` : pathname)
+  }
 
   return (
     <>
@@ -40,13 +48,25 @@ export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bg
                 style={{ background: `${accentColor}20`, color: accentColor, border: `1px solid ${accentColor}40` }}>
                 DEMO
               </span>
-              <span className="text-xs text-gray-400">{themeName}</span>
+              <span className="text-xs text-gray-400 hidden sm:inline">{themeName}</span>
             </div>
-            <Link href="/register"
-              className="px-4 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105"
-              style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)`, color: '#0a0a0a' }}>
-              Buat Undanganmu →
-            </Link>
+            <div className="flex items-center gap-2">
+              {/* Toggle foto */}
+              <button onClick={togglePhotos}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all"
+                style={{
+                  background: withPhotos ? `${accentColor}20` : 'rgba(255,255,255,0.08)',
+                  color: withPhotos ? accentColor : '#9ca3af',
+                  border: `1px solid ${withPhotos ? accentColor + '40' : 'rgba(255,255,255,0.1)'}`,
+                }}>
+                📸 {withPhotos ? 'Dengan Foto' : 'Tanpa Foto'}
+              </button>
+              <Link href="/register"
+                className="px-4 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105"
+                style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)`, color: '#0a0a0a' }}>
+                Buat Undanganmu →
+              </Link>
+            </div>
           </div>
 
           <motion.div
