@@ -26,7 +26,7 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     cover_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80' : null,
     couple_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' : null,
     groom_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80' : null,
-    bride_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80' : null,
+    bride_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80' : null,
     opening_text: 'Bismillahirrahmanirrahim\n\nDengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada pernikahan kami.',
     quran_verse: 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati.',
     quran_surah: 'QS. Ar-Rum: 21',
@@ -87,7 +87,7 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     ] : [],
     couple_photos: withPhotos ? [
       { id: 'demo-cp-1', photo_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80', person: 'groom' as const, sort_order: 0 },
-      { id: 'demo-cp-2', photo_url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80', person: 'bride' as const, sort_order: 0 },
+      { id: 'demo-cp-2', photo_url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80', person: 'bride' as const, sort_order: 0 },
     ] : [],
   }
 }
