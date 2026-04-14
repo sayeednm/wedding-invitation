@@ -56,7 +56,7 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     cover_type: invitation.cover_type || 'gradient',
     silhouette_variant: invitation.silhouette_variant || 'standing',
     photo_frame: invitation.photo_frame || 'circle',
-    photo_mode: (invitation as any).photo_mode || 'single',
+    photo_mode: invitation.photo_mode || 'single',
     video_url: invitation.video_url || '',
     love_story: invitation.love_story || '',
     live_streaming_url: invitation.live_streaming_url || '',
@@ -373,12 +373,12 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
           <>
             <div>
               <label className={labelClass}>Foto Individual Mempelai Wanita</label>
-              <input type="file" accept="image/*" onChange={e => handlePhotoUpload(e, 'bride_photo_url' as any)}
+              <input type="file" accept="image/*" onChange={e => handlePhotoUpload(e, 'bride_photo_url')}
                 className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium cursor-pointer" />
             </div>
             <div>
               <label className={labelClass}>Foto Individual Mempelai Pria</label>
-              <input type="file" accept="image/*" onChange={e => handlePhotoUpload(e, 'groom_photo_url' as any)}
+              <input type="file" accept="image/*" onChange={e => handlePhotoUpload(e, 'groom_photo_url')}
                 className="w-full text-sm text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium cursor-pointer" />
             </div>
           </>
