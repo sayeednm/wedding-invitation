@@ -36,6 +36,7 @@ export interface Invitation {
   silhouette_variant: 'standing' | 'holding' | 'romantic' | null
   photo_frame: 'circle' | 'oval' | 'rounded' | 'hexagon' | 'diamond' | null
   dresscode_enabled: boolean | null
+  photo_decoration: boolean | null
   photo_mode: 'single' | 'individual' | null
   dresscode_color: string | null
   dresscode_note: string | null

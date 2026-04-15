@@ -58,6 +58,7 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     silhouette_variant: invitation.silhouette_variant || 'standing',
     photo_frame: invitation.photo_frame || 'circle',
     photo_mode: invitation.photo_mode || 'single',
+    photo_decoration: invitation.photo_decoration ?? true,
     video_url: invitation.video_url || '',
     love_story: invitation.love_story || '',
     live_streaming_url: invitation.live_streaming_url || '',
@@ -94,9 +95,9 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     }
 
     if (name === 'event_date' || name === 'akad_date') {
-      onPreview?.({ [name]: value ? new Date(value).toISOString() : null })
+      onPreview?.({ ...updated, [name]: value ? new Date(value).toISOString() : null })
     } else {
-      onPreview?.({ [name]: value })
+      onPreview?.(updated)
     }
   }
 
@@ -432,6 +433,25 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
             ))}
           </div>
         </div>
+        {/* Toggle hiasan bingkai foto */}
+        <div className="flex items-center justify-between">
+          <div>
+            <label className={labelClass} style={{ marginBottom: 0 }}>Hiasan di Sekitar Foto</label>
+            <p className="text-xs text-gray-600">Ornamen dekoratif di sekitar bingkai foto mempelai</p>
+          </div>
+          <button type="button"
+            onClick={() => {
+              setForm(p => ({ ...p, photo_decoration: !p.photo_decoration }))
+              onPreview?.({ photo_decoration: !form.photo_decoration })
+              onSave({ photo_decoration: !form.photo_decoration })
+            }}
+            className="flex-shrink-0 relative inline-flex items-center rounded-full transition-colors"
+            style={{ width: 44, height: 24, background: form.photo_decoration ? '#C9A84C' : '#4b5563' }}>
+            <span className="absolute rounded-full bg-white transition-transform"
+              style={{ width: 18, height: 18, transform: form.photo_decoration ? 'translateX(22px)' : 'translateX(3px)' }}/>
+          </button>
+        </div>
+
         <div>
           <label className={labelClass}>URL Musik (MP3) — opsional, gunakan Music Picker di bawah</label>
           <input name="music_url" value={form.music_url} onChange={handleChange}

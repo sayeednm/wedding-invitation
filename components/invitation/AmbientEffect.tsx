@@ -25,7 +25,7 @@ function FallingPetals({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
       {petals.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -59,7 +59,7 @@ function FallingStars({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
       {stars.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -104,7 +104,7 @@ function FallingLeaves({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
       {leaves.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -139,7 +139,7 @@ function FallingCrystals({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
       {crystals.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -20 }}
@@ -173,7 +173,7 @@ function GoldSparks({ color, count }: { color: string; count: number }) {
   })), [count])
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
       {sparks.map(p => (
         <motion.div key={p.id}
           style={{ position: 'absolute', left: `${p.left}%`, top: -10 }}

@@ -29,7 +29,7 @@ const durations = {
 
 export default function SectionReveal({ children, delay = 0, direction = 'up', className, once = true }: Props) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once, margin: '-60px' })
+  const inView = useInView(ref, { once, margin: '0px' })
 
   return (
     <motion.div

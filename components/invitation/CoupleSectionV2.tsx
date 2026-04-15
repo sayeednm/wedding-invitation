@@ -11,7 +11,7 @@ interface Props {
   accentColor: string
 }
 
-function PersonCard({ name, fullName, father, mother, instagram, photoUrl, photoUrls, role, accentColor, templateId, frame, delay }: {
+function PersonCard({ name, fullName, father, mother, instagram, photoUrl, photoUrls, role, accentColor, templateId, frame, delay, showDecoration }: {
   name: string | null
   fullName: string | null
   father: string | null
@@ -24,6 +24,7 @@ function PersonCard({ name, fullName, father, mother, instagram, photoUrl, photo
   templateId: string
   frame: string
   delay: number
+  showDecoration?: boolean
 }) {
   const allPhotos = photoUrls?.length ? photoUrls : (photoUrl ? [photoUrl] : [])
 
@@ -38,9 +39,12 @@ function PersonCard({ name, fullName, father, mother, instagram, photoUrl, photo
       {/* Foto individual / slideshow */}
       {allPhotos.length > 0 && (
         <div className="flex justify-center mb-5">
-          <div className="relative inline-flex items-center justify-center">
-            <PhotoDecoration accentColor={accentColor} templateId={templateId} size={160} frame={frame}/>
-            <div className="relative z-10">
+          <div className="relative flex items-center justify-center"
+            style={{ width: frame === 'oval' ? Math.round(160 * 0.78) + 56 : 216, height: 216 }}>
+            {showDecoration !== false && (
+              <PhotoDecoration accentColor={accentColor} templateId={templateId} size={160} frame={frame}/>
+            )}
+            <div className="relative z-10 flex items-center justify-center" style={{ width: '100%', height: '100%' }}>
               {allPhotos.length > 1 ? (
                 <div style={{
                   width: frame === 'oval' ? Math.round(160 * 0.82) : 160,
@@ -73,7 +77,7 @@ function PersonCard({ name, fullName, father, mother, instagram, photoUrl, photo
         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: delay + 0.2, ease: [0.22, 1, 0.36, 1] }}
-        style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.2, textShadow: `0 0 30px ${accentColor}40` }}>
+        style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 30px ${accentColor}40` }}>
         {name || role}
       </motion.h2>
 
@@ -139,9 +143,12 @@ export default function CoupleSectionV2({ invitation, accentColor }: Props) {
       <div className="text-center py-8 px-6">
         {allCouplePhotos.length > 0 && (
           <div className="flex justify-center mb-6">
-            <div className="relative inline-flex items-center justify-center">
-              <PhotoDecoration accentColor={accentColor} templateId={invitation.template_id} size={180} frame={frame}/>
-              <div className="relative z-10" style={{ width: 180, height: 180 }}>
+            <div className="relative flex items-center justify-center"
+              style={{ width: frame === 'oval' ? Math.round(180 * 0.78) + 63 : 243, height: 243 }}>
+              {invitation.photo_decoration !== false && (
+                <PhotoDecoration accentColor={accentColor} templateId={invitation.template_id} size={180} frame={frame}/>
+              )}
+              <div className="relative z-10 flex items-center justify-center" style={{ width: 180, height: 180 }}>
                 {allCouplePhotos.length > 1 ? (
                   <PhotoSlideshow
                     photos={allCouplePhotos}
@@ -156,11 +163,11 @@ export default function CoupleSectionV2({ invitation, accentColor }: Props) {
             </div>
           </div>
         )}
-        <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.2 }}>
+        <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.4, paddingBottom: '0.1em' }}>
           {invitation.groom_name || 'Mempelai Pria'}
         </h2>
         <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 28, color: `${accentColor}80`, margin: '4px 0' }}>&amp;</p>
-        <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.2 }}>
+        <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 38, color: accentColor, lineHeight: 1.4, paddingBottom: '0.1em' }}>
           {invitation.bride_name || 'Mempelai Wanita'}
         </h2>
         {/* Info orang tua */}
@@ -203,6 +210,7 @@ export default function CoupleSectionV2({ invitation, accentColor }: Props) {
         templateId={invitation.template_id}
         frame={frame}
         delay={0}
+        showDecoration={invitation.photo_decoration !== false}
       />
 
       {/* Simbol & */}
@@ -228,6 +236,7 @@ export default function CoupleSectionV2({ invitation, accentColor }: Props) {
         templateId={invitation.template_id}
         frame={frame}
         delay={0.1}
+        showDecoration={invitation.photo_decoration !== false}
       />
     </div>
   )

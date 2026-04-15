@@ -102,25 +102,25 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
       content: (
         <SectionWrapper bg={bg} accent={accent}>
           <div className="text-center space-y-6">
-            {invitation.opening_text && (
-              <SectionReveal direction="blur">
-                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 17, fontStyle: 'italic', color: 'rgba(255,255,255,0.72)', lineHeight: 2.4 }}>
-                  {invitation.opening_text}
-                </p>
-              </SectionReveal>
-            )}
             {invitation.quran_verse && (
-              <SectionReveal direction="scale" delay={0.2}>
-                <div className="rounded-2xl px-6 py-6 relative overflow-hidden" style={{ background: `${accent}08`, border: `1px solid ${accent}18` }}>
+              <SectionReveal direction="scale">
+                <div className="rounded-2xl px-5 py-5 relative overflow-hidden" style={{ background: `${accent}08`, border: `1px solid ${accent}18` }}>
                   <CornerComponent color={accent} position="tl" size={80} opacity={0.2}/>
                   <CornerComponent color={accent} position="br" size={80} opacity={0.2}/>
-                  <p className="relative z-10" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 15, fontStyle: 'italic', color: 'rgba(255,255,255,0.62)', lineHeight: 2.2 }}>
+                  <p className="relative z-10" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(12px, 3vw, 15px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.62)', lineHeight: 1.9 }}>
                     "{invitation.quran_verse}"
                   </p>
                   {invitation.quran_surah && (
-                    <p className="relative z-10 mt-3 text-xs tracking-widest" style={{ color: `${accent}80` }}>— {invitation.quran_surah}</p>
+                    <p className="relative z-10 mt-2 text-xs tracking-widest" style={{ color: `${accent}80` }}>— {invitation.quran_surah}</p>
                   )}
                 </div>
+              </SectionReveal>
+            )}
+            {invitation.opening_text && (
+              <SectionReveal direction="blur" delay={0.2}>
+                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(13px, 3.5vw, 17px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.72)', lineHeight: 1.9 }}>
+                  {invitation.opening_text}
+                </p>
               </SectionReveal>
             )}
           </div>
@@ -226,6 +226,77 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
       id: 'rsvp', label: 'RSVP',
       content: <SectionWrapper bg={bg} accent={accent}><GuestbookSection invitationId={invitation.id} entries={invitation.guestbook || []} templateId={invitation.template_id}/></SectionWrapper>,
     },
+
+    // 11. Penutup — Terima Kasih
+    {
+      id: 'closing', label: 'Penutup',
+      content: (
+        <SectionWrapper bg={bg} accent={accent}>
+          <SectionReveal direction="scale">
+            <div className="text-center px-4 py-4">
+              {/* Foto pasangan — ambil yang tersedia */}
+              {(() => {
+                const photo =
+                  invitation.couple_photo_url ||
+                  invitation.couple_photos?.find(p => p.person === 'couple')?.photo_url ||
+                  invitation.couple_photos?.[0]?.photo_url ||
+                  invitation.bride_photo_url ||
+                  invitation.groom_photo_url ||
+                  invitation.cover_photo_url
+                if (!photo) return null
+                return (
+                  <div className="flex justify-center mb-6">
+                    <div className="w-32 h-32 rounded-full overflow-hidden"
+                      style={{ border: `2px solid ${accent}`, boxShadow: `0 0 20px ${accent}25` }}>
+                      <img
+                        src={photo}
+                        alt="Foto pasangan"
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                )
+              })()}
+
+              {/* Judul */}
+              <h2 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(28px, 8vw, 42px)', color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 30px ${accent}40` }}>
+                Terima Kasih
+              </h2>
+
+              {/* Teks ucapan */}
+              <p className="mt-4 mb-6 leading-relaxed"
+                style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(13px, 3.5vw, 16px)', color: 'rgba(255,255,255,0.7)', fontStyle: 'italic', maxWidth: 300, margin: '16px auto 20px' }}>
+                Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu kepada kami.
+              </p>
+
+              {/* Wassalam */}
+              <p className="font-medium mb-6"
+                style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(12px, 3vw, 15px)', color: `${accent}cc` }}>
+                Wassalamu'alaikum warahmatullahi wabarakatuh
+              </p>
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 justify-center mb-4">
+                <div className="h-px w-12" style={{ background: `linear-gradient(to right, transparent, ${accent}50)` }}/>
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                  <path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" fill={accent} opacity="0.7"/>
+                </svg>
+                <div className="h-px w-12" style={{ background: `linear-gradient(to left, transparent, ${accent}50)` }}/>
+              </div>
+
+              {/* Nama mempelai */}
+              <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Cormorant Garamond, serif' }}>
+                Kami Yang Berbahagia
+              </p>
+              <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 20px ${accent}40` }}>
+                {invitation.groom_name || 'Mempelai Pria'} &amp; {invitation.bride_name || 'Mempelai Wanita'}
+              </p>
+            </div>
+          </SectionReveal>
+        </SectionWrapper>
+      ),
+    },
   ]
 }
 
@@ -255,11 +326,11 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
             <svg width="8" height="8" viewBox="0 0 8 8"><path d="M4 0 L5 3 L8 4 L5 5 L4 8 L3 5 L0 4 L3 3 Z" fill={accent}/></svg>
             <div className="h-px flex-1" style={{ background: `linear-gradient(to left, transparent, ${accent})` }}/>
           </div>
-          <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.2, textShadow: `0 0 30px ${accent}55` }}>
+          <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 30px ${accent}55` }}>
             {invitation.groom_name || 'Mempelai Pria'}
           </h1>
           <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, color: `${accent}80`, fontStyle: 'italic' }}>&amp;</p>
-          <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.2, textShadow: `0 0 30px ${accent}55` }}>
+          <h1 style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 30px ${accent}55` }}>
             {invitation.bride_name || 'Mempelai Wanita'}
           </h1>
           <div className="flex items-center gap-2 w-32">
@@ -275,23 +346,23 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
         </div>
       </div>
 
-      {invitation.opening_text && (
-        <div className="px-6 py-8 relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8" style={{ background: `linear-gradient(to bottom, ${accent}, transparent)` }}/>
-          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)', lineHeight: 2 }}>
-            {invitation.opening_text}
-          </p>
-        </div>
-      )}
-
       {invitation.quran_verse && (
         <div className="mx-4 mb-4 rounded-xl px-4 py-4 relative overflow-hidden" style={{ background: `${accent}08`, border: `1px solid ${accent}18` }}>
-          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(255,255,255,0.62)', lineHeight: 2 }}>
+          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 12, fontStyle: 'italic', color: 'rgba(255,255,255,0.62)', lineHeight: 1.9 }}>
             "{invitation.quran_verse}"
           </p>
           {invitation.quran_surah && (
             <p className="mt-2 text-xs tracking-widest" style={{ color: `${accent}80` }}>— {invitation.quran_surah}</p>
           )}
+        </div>
+      )}
+
+      {invitation.opening_text && (
+        <div className="px-6 py-6 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8" style={{ background: `linear-gradient(to bottom, ${accent}, transparent)` }}/>
+          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)', lineHeight: 1.9 }}>
+            {invitation.opening_text}
+          </p>
         </div>
       )}
 
@@ -344,10 +415,43 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
         </div>
       )}
 
+      {/* Love Story */}
+      {invitation.love_story && (
+        <div className="px-4 py-4">
+          <LoveStorySection story={invitation.love_story} accentColor={accent}/>
+        </div>
+      )}
+
+      {/* Video */}
+      {invitation.video_url && (
+        <div className="px-4 py-2">
+          <VideoSection videoUrl={invitation.video_url} accentColor={accent}/>
+        </div>
+      )}
+
+      {/* Dresscode */}
+      {invitation.dresscode_enabled && invitation.dresscode_color && (
+        <div className="px-4 py-2">
+          <DresscodeSection color={invitation.dresscode_color} note={invitation.dresscode_note} accentColor={accent}/>
+        </div>
+      )}
+
       {/* Amplop digital */}
       {invitation.digital_gifts && invitation.digital_gifts.length > 0 && (
         <div className="px-2">
           <WeddingGiftSection gifts={invitation.digital_gifts} accentColor={accent}/>
+        </div>
+      )}
+
+      {/* Live Streaming */}
+      {invitation.live_streaming_url && (
+        <div className="px-4 py-4 text-center">
+          <p className="text-xs tracking-widest uppercase mb-2" style={{ color: accent }}>Live Streaming</p>
+          <a href={invitation.live_streaming_url} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs"
+            style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}30` }}>
+            🔴 Tonton Live Streaming
+          </a>
         </div>
       )}
 
@@ -383,10 +487,42 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
         )}
       </div>
 
-      <div className="py-8 flex flex-col items-center gap-2 relative z-10">
-        <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0 L7 5 L12 6 L7 7 L6 12 L5 7 L0 6 L5 5 Z" fill={accent} opacity="0.6"/></svg>
-        <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: `${accent}50` }}>
-          Dengan penuh cinta &amp; kebahagiaan
+      {/* Penutup — Terima Kasih */}
+      <div className="px-4 py-6 text-center">
+        {(() => {
+          const photo =
+            invitation.couple_photo_url ||
+            invitation.couple_photos?.find(p => p.person === 'couple')?.photo_url ||
+            invitation.couple_photos?.[0]?.photo_url ||
+            invitation.bride_photo_url ||
+            invitation.groom_photo_url ||
+            invitation.cover_photo_url
+          return photo ? (
+            <div className="flex justify-center mb-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden"
+                style={{ border: `2px solid ${accent}`, boxShadow: `0 0 15px ${accent}25` }}>
+                <img src={photo} alt="" className="w-full h-full object-cover"/>
+              </div>
+            </div>
+          ) : null
+        })()}
+        <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 28, color: accent, lineHeight: 1.4, paddingBottom: '0.1em' }}>
+          Terima Kasih
+        </p>
+        <p className="mt-2 text-xs text-gray-400 italic" style={{ fontFamily: 'Cormorant Garamond, serif', lineHeight: 1.7 }}>
+          Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i berkenan hadir.
+        </p>
+        <p className="mt-3 text-xs" style={{ color: `${accent}cc`, fontFamily: 'Cormorant Garamond, serif' }}>
+          Wassalamu'alaikum warahmatullahi wabarakatuh
+        </p>
+        <div className="flex items-center gap-2 justify-center my-3">
+          <div className="h-px w-8" style={{ background: `linear-gradient(to right, transparent, ${accent}50)` }}/>
+          <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" fill={accent} opacity="0.7"/></svg>
+          <div className="h-px w-8" style={{ background: `linear-gradient(to left, transparent, ${accent}50)` }}/>
+        </div>
+        <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Cormorant Garamond, serif' }}>Kami Yang Berbahagia</p>
+        <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 20, color: accent, lineHeight: 1.4, paddingBottom: '0.1em' }}>
+          {invitation.groom_name || 'Mempelai Pria'} &amp; {invitation.bride_name || 'Mempelai Wanita'}
         </p>
       </div>
     </div>

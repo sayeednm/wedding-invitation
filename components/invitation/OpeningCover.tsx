@@ -44,20 +44,15 @@ function GoldParticles({ color }: { color: string }) {
 export default function OpeningCover({ invitation, guestName, onOpen, accentColor, bgFrom, bgTo, CornerComponent = FlowerCorner }: Props) {
   const [visible, setVisible] = useState(true)
   const [showContent, setShowContent] = useState(false)
-  // Respect prefers-reduced-motion
-  const prefersReduced = typeof window !== 'undefined'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false
 
   useEffect(() => {
-    // Jika reduced motion, langsung tampilkan konten tanpa delay
-    const t = setTimeout(() => setShowContent(true), prefersReduced ? 0 : 300)
+    const t = setTimeout(() => setShowContent(true), 300)
     return () => clearTimeout(t)
-  }, [prefersReduced])
+  }, [])
 
   function handleOpen() {
     setVisible(false)
-    setTimeout(onOpen, prefersReduced ? 0 : 700)
+    setTimeout(onOpen, 700)
   }
 
   return (
@@ -114,10 +109,10 @@ export default function OpeningCover({ invitation, guestName, onOpen, accentColo
                 Undangan Pernikahan
               </motion.p>
 
-              <div className="overflow-hidden mb-1">
-                <motion.h1 initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+              <div className="mb-1" style={{ paddingBottom: '0.2em' }}>
+                <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(48px, 13vw, 72px)', color: accentColor, lineHeight: 1.1, textShadow: `0 0 80px ${accentColor}60` }}>
+                  style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(48px, 13vw, 72px)', color: accentColor, lineHeight: 1.4, textShadow: `0 0 80px ${accentColor}60` }}>
                   {invitation.groom_name || 'Mempelai Pria'}
                 </motion.h1>
               </div>
@@ -130,10 +125,10 @@ export default function OpeningCover({ invitation, guestName, onOpen, accentColo
                 </svg>
               </motion.div>
 
-              <div className="overflow-hidden mt-1">
-                <motion.h1 initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+              <div className="mt-1" style={{ paddingBottom: '0.2em' }}>
+                <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(48px, 13vw, 72px)', color: accentColor, lineHeight: 1.1, textShadow: `0 0 80px ${accentColor}60` }}>
+                  style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(48px, 13vw, 72px)', color: accentColor, lineHeight: 1.4, textShadow: `0 0 80px ${accentColor}60` }}>
                   {invitation.bride_name || 'Mempelai Wanita'}
                 </motion.h1>
               </div>

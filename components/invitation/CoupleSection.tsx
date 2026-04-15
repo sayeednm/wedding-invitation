@@ -27,7 +27,7 @@ export default function CoupleSection({ invitation, accentColor }: Props) {
         <motion.div {...fade} className="text-center rounded-2xl p-5"
           style={{ background: `${accentColor}08`, border: `1px solid ${accentColor}20` }}>
           <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `${accentColor}99` }}>Mempelai Pria</p>
-          <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 36, color: accentColor, lineHeight: 1.2 }}>
+          <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 36, color: accentColor, lineHeight: 1.4, paddingBottom: '0.1em' }}>
             {invitation.groom_name || 'Mempelai Pria'}
           </p>
           {invitation.groom_full_name && (
@@ -59,7 +59,7 @@ export default function CoupleSection({ invitation, accentColor }: Props) {
         <motion.div {...fade} className="text-center rounded-2xl p-5"
           style={{ background: `${accentColor}08`, border: `1px solid ${accentColor}20` }}>
           <p className="text-xs tracking-widest uppercase mb-3" style={{ color: `${accentColor}99` }}>Mempelai Wanita</p>
-          <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 36, color: accentColor, lineHeight: 1.2 }}>
+          <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 36, color: accentColor, lineHeight: 1.4, paddingBottom: '0.1em' }}>
             {invitation.bride_name || 'Mempelai Wanita'}
           </p>
           {invitation.bride_full_name && (

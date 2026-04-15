@@ -78,11 +78,11 @@ function InvitationPreviewMini({ bg, accent }: { bg: string; accent: string }) {
           <div className="h-px flex-1" style={{ background: `linear-gradient(to left, transparent, ${accent})` }}/>
         </div>
 
-        <p className="relative z-10" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 18, color: accent, lineHeight: 1.1, textShadow: `0 0 10px ${accent}60` }}>
+        <p className="relative z-10" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 18, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 10px ${accent}60` }}>
           Budi
         </p>
         <p className="relative z-10" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 7, color: `${accent}80`, fontStyle: 'italic', margin: '2px 0' }}>&amp;</p>
-        <p className="relative z-10" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 18, color: accent, lineHeight: 1.1, textShadow: `0 0 10px ${accent}60` }}>
+        <p className="relative z-10" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 18, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 10px ${accent}60` }}>
           Sari
         </p>
 

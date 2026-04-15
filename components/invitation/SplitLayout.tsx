@@ -70,9 +70,9 @@ function CoverPanel({ invitation, accentColor, bgGradient, patternType = 'floral
         </motion.div>
 
         {/* Nama — per kata reveal */}
-        <div className="text-center">
+        <div className="text-center" style={{ lineHeight: 1 }}>
           {[invitation.groom_name || 'Mempelai Pria', '&', invitation.bride_name || 'Mempelai Wanita'].map((word, wi) => (
-            <div key={wi} className="overflow-hidden inline-block mx-1">
+            <div key={wi} className="inline-block mx-1">
               <motion.span
                 initial={{ y: '110%', opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -82,9 +82,11 @@ function CoverPanel({ invitation, accentColor, bgGradient, patternType = 'floral
                   fontFamily: word === '&' ? 'Cormorant Garamond, serif' : 'Great Vibes, cursive',
                   fontSize: word === '&' ? 'clamp(18px, 4vw, 28px)' : 'clamp(32px, 7vw, 52px)',
                   color: accentColor,
-                  lineHeight: 1.1,
+                  lineHeight: 1.4,
+                  paddingBottom: word !== '&' ? '0.15em' : 0,
                   textShadow: `0 0 40px ${accentColor}50`,
                   fontStyle: word === '&' ? 'italic' : 'normal',
+                  verticalAlign: 'middle',
                 }}>
                 {word}
               </motion.span>
