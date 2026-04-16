@@ -96,7 +96,7 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
   const bg = bgGradient
 
   return [
-    // 1. Pembuka
+    // 1. Pembuka — ayat Quran saja
     {
       id: 'opening', label: 'Pembuka',
       content: (
@@ -116,23 +116,23 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
                 </div>
               </SectionReveal>
             )}
-            {invitation.opening_text && (
-              <SectionReveal direction="blur" delay={0.2}>
-                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(13px, 3.5vw, 17px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.72)', lineHeight: 1.9 }}>
-                  {invitation.opening_text}
-                </p>
-              </SectionReveal>
-            )}
           </div>
         </SectionWrapper>
       ),
     },
 
-    // 2. Mempelai
+    // 2. Mempelai — opening text di atas foto
     {
       id: 'couple', label: 'Mempelai',
       content: (
         <SectionWrapper bg={bg} accent={accent}>
+          {invitation.opening_text && (
+            <SectionReveal direction="blur" className="mb-6">
+              <p className="text-center" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(13px, 3.5vw, 17px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.72)', lineHeight: 1.9 }}>
+                {invitation.opening_text}
+              </p>
+            </SectionReveal>
+          )}
           <CoupleSectionV2 invitation={invitation} accentColor={accent}/>
         </SectionWrapper>
       ),
@@ -357,17 +357,13 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
         </div>
       )}
 
-      {invitation.opening_text && (
-        <div className="px-6 py-6 relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8" style={{ background: `linear-gradient(to bottom, ${accent}, transparent)` }}/>
-          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)', lineHeight: 1.9 }}>
-            {invitation.opening_text}
-          </p>
-        </div>
-      )}
-
       {(invitation.groom_name || invitation.bride_name) && (
         <div className="px-2 py-2">
+          {invitation.opening_text && (
+            <p className="text-center px-4 mb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)', lineHeight: 1.9 }}>
+              {invitation.opening_text}
+            </p>
+          )}
           <CoupleSectionV2 invitation={invitation} accentColor={accent}/>
         </div>
       )}

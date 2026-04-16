@@ -27,7 +27,7 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     couple_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' : null,
     groom_photo_url: withPhotos ? 'https://rrlveqcnmhzknacyozdh.supabase.co/storage/v1/object/public/wedding-photos/demo/wedding%20photo%20laki.png' : null,
     bride_photo_url: withPhotos ? 'https://rrlveqcnmhzknacyozdh.supabase.co/storage/v1/object/public/wedding-photos/demo/wedding%20photo.png' : null,
-    opening_text: 'Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.',
+    opening_text: 'Assalamu\'alaikum Warahmatullahi Wabarakatuh\n\nMaha suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.',
     quran_verse: 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati.',
     quran_surah: 'QS. Ar-Rum: 21',
     dresscode_color: '#C9A84C',
