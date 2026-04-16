@@ -24,7 +24,7 @@ export function getDemoInvitation(templateId: string, withPhotos = true): Invita
     akad_maps_url: 'https://maps.google.com',
     music_url: null,
     cover_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80' : null,
-    couple_photo_url: withPhotos ? 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' : null,
+    couple_photo_url: withPhotos ? 'https://rrlveqcnmhzknacyozdh.supabase.co/storage/v1/object/public/wedding-photos/demo/photo%20laki-pr.jpeg' : null,
     groom_photo_url: withPhotos ? 'https://rrlveqcnmhzknacyozdh.supabase.co/storage/v1/object/public/wedding-photos/demo/wedding%20photo%20laki.png' : null,
     bride_photo_url: withPhotos ? 'https://rrlveqcnmhzknacyozdh.supabase.co/storage/v1/object/public/wedding-photos/demo/wedding%20photo.png' : null,
     opening_text: 'Assalamu\'alaikum Warahmatullahi Wabarakatuh\n\nMaha suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.',
