@@ -12,19 +12,19 @@ interface Props {
 }
 
 const variants = {
-  up:    { hidden: { opacity: 0, y: 60 },                    visible: { opacity: 1, y: 0 } },
-  down:  { hidden: { opacity: 0, y: -40 },                   visible: { opacity: 1, y: 0 } },
-  left:  { hidden: { opacity: 0, x: -60 },                   visible: { opacity: 1, x: 0 } },
-  right: { hidden: { opacity: 0, x: 60 },                    visible: { opacity: 1, x: 0 } },
-  scale: { hidden: { opacity: 0, scale: 0.85 },              visible: { opacity: 1, scale: 1 } },
+  up:    { hidden: { opacity: 0, y: 40 },                    visible: { opacity: 1, y: 0 } },
+  down:  { hidden: { opacity: 0, y: -30 },                   visible: { opacity: 1, y: 0 } },
+  left:  { hidden: { opacity: 0, x: -40 },                   visible: { opacity: 1, x: 0 } },
+  right: { hidden: { opacity: 0, x: 40 },                    visible: { opacity: 1, x: 0 } },
+  scale: { hidden: { opacity: 0, scale: 0.9 },               visible: { opacity: 1, scale: 1 } },
   fade:  { hidden: { opacity: 0 },                           visible: { opacity: 1 } },
-  blur:  { hidden: { opacity: 0, filter: 'blur(12px)', scale: 0.96 }, visible: { opacity: 1, filter: 'blur(0px)', scale: 1 } },
-  flip:  { hidden: { opacity: 0, rotateX: 30, y: 40 },      visible: { opacity: 1, rotateX: 0, y: 0 } },
+  blur:  { hidden: { opacity: 0, filter: 'blur(8px)', scale: 0.98 }, visible: { opacity: 1, filter: 'blur(0px)', scale: 1 } },
+  flip:  { hidden: { opacity: 0, rotateX: 20, y: 30 },      visible: { opacity: 1, rotateX: 0, y: 0 } },
 }
 
 const durations = {
-  up: 0.75, down: 0.6, left: 0.7, right: 0.7,
-  scale: 0.7, fade: 0.8, blur: 0.9, flip: 0.8,
+  up: 0.55, down: 0.5, left: 0.55, right: 0.55,
+  scale: 0.5, fade: 0.6, blur: 0.65, flip: 0.6,
 }
 
 export default function SectionReveal({ children, delay = 0, direction = 'up', className, once = true }: Props) {
@@ -42,6 +42,7 @@ export default function SectionReveal({ children, delay = 0, direction = 'up', c
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}
+      style={{ willChange: 'transform, opacity' }}
       className={className}>
       {children}
     </motion.div>

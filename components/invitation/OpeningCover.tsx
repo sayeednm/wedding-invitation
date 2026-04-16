@@ -82,15 +82,13 @@ export default function OpeningCover({ invitation, guestName, onOpen, accentColo
 
           <div className="absolute inset-0 pointer-events-none"
             style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${accentColor}15 0%, transparent 70%)` }}/>
-          <div className="absolute inset-4 pointer-events-none rounded-sm" style={{ border: `1px solid ${accentColor}20` }}/>
-          <div className="absolute inset-7 pointer-events-none rounded-sm" style={{ border: `1px solid ${accentColor}10` }}/>
 
           {showContent && (
             <div className="absolute inset-0 flex flex-col items-center justify-center px-8 text-center">
 
               <motion.p initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
                 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 13, fontStyle: 'italic', color: `${accentColor}80` }}>
-                {invitation.opening_text?.split('\n')[0] || 'Bismillahirrahmanirrahim'}
+                Bismillahirrahmanirrahim
               </motion.p>
 
               <motion.div initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }}

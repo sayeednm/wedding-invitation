@@ -271,7 +271,7 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
               </p>
 
               {/* Wassalam */}
-              <p className="font-medium mb-6"
+              <p className="font-medium mb-6 text-center w-full"
                 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(12px, 3vw, 15px)', color: `${accent}cc` }}>
                 Wassalamu'alaikum warahmatullahi wabarakatuh
               </p>
@@ -286,10 +286,10 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
               </div>
 
               {/* Nama mempelai */}
-              <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Cormorant Garamond, serif' }}>
+              <p className="text-sm mb-1 text-center w-full" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Cormorant Garamond, serif' }}>
                 Kami Yang Berbahagia
               </p>
-              <p style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 20px ${accent}40` }}>
+              <p className="text-center w-full" style={{ fontFamily: 'Great Vibes, cursive', fontSize: 32, color: accent, lineHeight: 1.4, paddingBottom: '0.1em', textShadow: `0 0 20px ${accent}40` }}>
                 {invitation.groom_name || 'Mempelai Pria'} &amp; {invitation.bride_name || 'Mempelai Wanita'}
               </p>
             </div>
