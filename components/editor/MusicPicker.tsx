@@ -41,13 +41,12 @@ export default function MusicPicker({ currentUrl, onSelect, userId, invitationId
       return
     }
     setUploading(true)
-    const supabase = createClient()
-    const path = `music/${userId}/${invitationId}-${Date.now()}.mp3`
-    const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
-    if (!error && data) {
-      const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
-      onSelect(urlData.publicUrl)
-    }
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', 'wedding-music')
+    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+    const { url } = await res.json()
+    if (url) onSelect(url)
     setUploading(false)
   }
 
