@@ -50,13 +50,12 @@ export default function DigitalGiftEditor({ invitationId, initialGifts, onGiftsC
     const file = e.target.files?.[0]
     if (!file) return
     setUploadingQris(true)
-    const supabase = createClient()
-    const path = `qris/${invitationId}-${Date.now()}`
-    const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
-    if (!error && data) {
-      const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
-      setForm(prev => ({ ...prev, qris_url: urlData.publicUrl }))
-    }
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', 'wedding-qris')
+    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+    const { url } = await res.json()
+    if (url) setForm(prev => ({ ...prev, qris_url: url }))
     setUploadingQris(false)
   }
 
