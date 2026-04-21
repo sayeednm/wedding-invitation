@@ -106,13 +106,14 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     if (!file) return
     setUploading(true)
     const compressed = await compressImage(file, 1920, 1920, 0.85)
-    const supabase = createClient()
-    const path = `${userId}/${invitation.id}/${field}-${Date.now()}`
-    const { data, error } = await supabase.storage.from('wedding-photos').upload(path, compressed, { upsert: true })
-    if (!error && data) {
-      const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
-      onPreview?.({ [field]: urlData.publicUrl })
-      await onSave({ [field]: urlData.publicUrl })
+    const formData = new FormData()
+    formData.append('file', compressed)
+    formData.append('folder', 'wedding-photos')
+    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+    const { url } = await res.json()
+    if (url) {
+      onPreview?.({ [field]: url })
+      await onSave({ [field]: url })
     }
     setUploading(false)
   }

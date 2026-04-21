@@ -33,13 +33,15 @@ export default function GalleryEditor({ invitationId, initialPhotos, userId, onP
 
     for (const rawFile of files.slice(0, 20 - photos.length)) {
       const file = await compressImage(rawFile, 1600, 1600, 0.82)
-      const path = `${userId}/${invitationId}/gallery-${Date.now()}-${Math.random().toString(36).slice(2)}`
-      const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
-      if (!error && data) {
-        const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'wedding-gallery')
+      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const { url } = await res.json()
+      if (url) {
         const { data: photo } = await supabase.from('gallery').insert({
           invitation_id: invitationId,
-          photo_url: urlData.publicUrl,
+          photo_url: url,
           sort_order: photos.length + newPhotos.length,
         }).select().single()
         if (photo) newPhotos.push(photo)

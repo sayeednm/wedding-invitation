@@ -37,13 +37,15 @@ export default function CouplePhotoEditor({ invitationId, userId, initialPhotos,
 
     for (const rawFile of files.slice(0, 5)) {
       const file = await compressImage(rawFile, 1200, 1200, 0.85)
-      const path = `${userId}/${invitationId}/couple-${person}-${Date.now()}-${Math.random().toString(36).slice(2)}`
-      const { data, error } = await supabase.storage.from('wedding-photos').upload(path, file, { upsert: true })
-      if (!error && data) {
-        const { data: urlData } = supabase.storage.from('wedding-photos').getPublicUrl(data.path)
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('folder', 'wedding-couple')
+      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const { url } = await res.json()
+      if (url) {
         const { data: photo } = await supabase.from('couple_photos').insert({
           invitation_id: invitationId,
-          photo_url: urlData.publicUrl,
+          photo_url: url,
           person,
           sort_order: photos.filter(p => p.person === person).length + newPhotos.length,
         }).select().single()
