@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Undangan Digital <onboarding@resend.dev>',
+        from: 'Undangan Digital <noreply@undangandg.click>',
         to: profile.email,
         subject: `💌 Ucapan baru dari ${record.guest_name}`,
         html: `
