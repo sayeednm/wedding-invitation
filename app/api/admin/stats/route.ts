@@ -4,8 +4,10 @@ import { createClient } from '@supabase/supabase-js'
 // Simple admin stats endpoint — protected by ADMIN_SECRET env var
 export async function GET(req: NextRequest) {
   const secret = req.headers.get('x-admin-secret')
+  console.log('secret received:', secret)
+  console.log('env secret:', process.env.ADMIN_SECRET)
   if (!secret || secret !== process.env.ADMIN_SECRET) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized', received: secret, expected: process.env.ADMIN_SECRET ? 'set' : 'not set' }, { status: 401 })
   }
 
   const supabase = createClient(
