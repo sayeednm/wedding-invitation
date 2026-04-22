@@ -41,11 +41,6 @@ export default function GallerySection({ photos, accentColor }: Props) {
 
   return (
     <div className="px-4 py-8">
-      <div className="text-center mb-6">
-        <p className="text-xs tracking-[0.4em] uppercase mb-2" style={{ color: accentColor }}>Galeri</p>
-        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 24, color: 'white' }}>Momen Berharga</h2>
-      </div>
-
       <div className="grid grid-cols-3 gap-1.5">
         {photos.map((photo, i) => (
           <motion.div
