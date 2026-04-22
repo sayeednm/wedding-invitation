@@ -19,6 +19,16 @@ export async function POST(req: NextRequest) {
 
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
 
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+  const maxSize = 10 * 1024 * 1024 // 10MB
+
+  if (!allowedTypes.includes(file.type)) {
+    return NextResponse.json({ error: 'Tipe file tidak didukung. Gunakan JPG, PNG, atau WebP.' }, { status: 400 })
+  }
+  if (file.size > maxSize) {
+    return NextResponse.json({ error: 'Ukuran file maksimal 5MB.' }, { status: 400 })
+  }
+
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
 
