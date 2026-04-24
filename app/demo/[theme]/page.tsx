@@ -11,6 +11,9 @@ import TemplateBali from '@/components/templates/TemplateBali'
 import TemplateIvory from '@/components/templates/TemplateIvory'
 import MusicPlayer from '@/components/invitation/MusicPlayer'
 import DemoOpeningWrapper from '@/components/invitation/DemoOpeningWrapper'
+import AmbientEffect from '@/components/invitation/AmbientEffect'
+import { FlowerCorner } from '@/components/invitation/FlowerSVG'
+import { RoseCorner, CelestialCorner, BaliCorner, IvoryCorner, MoonStarCorner, RoyalCorner, RusticCorner } from '@/components/invitation/OrnamentSVG'
 
 const validThemes = ['luxury', 'floral', 'midnight', 'royal', 'rustic', 'celestial', 'bali', 'ivory']
 
@@ -60,6 +63,28 @@ export default async function DemoPage({ params, searchParams }: {
 
   const TemplateComponent = templateMap[theme]
 
+  const cornerMap: Record<string, React.ComponentType<{ color: string; position: 'tl'|'tr'|'bl'|'br'; size?: number; opacity?: number }>> = {
+    luxury:    FlowerCorner,
+    floral:    RoseCorner,
+    midnight:  MoonStarCorner,
+    royal:     RoyalCorner,
+    rustic:    RusticCorner,
+    celestial: CelestialCorner,
+    bali:      BaliCorner,
+    ivory:     IvoryCorner,
+  }
+
+  const ambientMap: Record<string, 'petals'|'stars'|'leaves'|'crystals'|'sparks'> = {
+    luxury:    'sparks',
+    floral:    'petals',
+    midnight:  'stars',
+    royal:     'sparks',
+    rustic:    'leaves',
+    celestial: 'crystals',
+    bali:      'petals',
+    ivory:     'sparks',
+  }
+
   return (
     <DemoOpeningWrapper
       invitation={invitation}
@@ -67,9 +92,11 @@ export default async function DemoPage({ params, searchParams }: {
       bgFrom={config.bgFrom}
       bgTo={config.bgTo}
       themeName={config.name}
-      withPhotos={withPhotos}>
+      withPhotos={withPhotos}
+      CornerComponent={cornerMap[theme]}>
       <div className="relative">
         {invitation.music_url && <MusicPlayer url={invitation.music_url} />}
+        <AmbientEffect type={ambientMap[theme]} color={config.accent} count={10}/>
         <TemplateComponent invitation={invitation} />
       </div>
     </DemoOpeningWrapper>

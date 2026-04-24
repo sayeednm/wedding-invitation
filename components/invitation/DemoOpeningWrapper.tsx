@@ -14,10 +14,11 @@ interface Props {
   bgTo: string
   themeName: string
   withPhotos?: boolean
+  CornerComponent?: React.ComponentType<{ color: string; position: 'tl'|'tr'|'bl'|'br'; size?: number; opacity?: number }>
   children: React.ReactNode
 }
 
-export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bgTo, themeName, withPhotos = true, children }: Props) {
+export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bgTo, themeName, withPhotos = true, CornerComponent, children }: Props) {
   const [opened, setOpened] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
@@ -35,6 +36,7 @@ export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bg
           accentColor={accentColor}
           bgFrom={bgFrom}
           bgTo={bgTo}
+          CornerComponent={CornerComponent}
         />
       )}
 
@@ -61,7 +63,7 @@ export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bg
                 }}>
                 📸 {withPhotos ? 'Dengan Foto' : 'Tanpa Foto'}
               </button>
-              <Link href="/register"
+                  <Link href="/register"
                 className="px-4 py-1.5 rounded-full text-xs font-medium transition-all hover:scale-105"
                 style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}cc)`, color: '#0a0a0a' }}>
                 Buat Undanganmu →
@@ -69,11 +71,25 @@ export default function DemoOpeningWrapper({ invitation, accentColor, bgFrom, bg
             </div>
           </div>
 
+          {/* Feature hint bar */}
+          <div className="fixed top-[44px] left-0 right-0 z-40 flex items-center justify-center py-1.5 px-4"
+            style={{ background: `${accentColor}12`, borderBottom: `1px solid ${accentColor}20` }}>
+            <p className="text-xs text-center" style={{ color: `${accentColor}90`, fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
+              ✨ Undanganmu bisa dilengkapi dengan&nbsp;
+              <span style={{ color: accentColor }}>🎵 musik latar</span>,&nbsp;
+              <span style={{ color: accentColor }}>🎬 video prewedding</span>, dan&nbsp;
+              <span style={{ color: accentColor }}>📺 live streaming</span>&nbsp;—&nbsp;
+              <Link href="/register" className="underline underline-offset-2 hover:opacity-80 transition-opacity" style={{ color: accentColor }}>
+                buat undanganmu sekarang
+              </Link>
+            </p>
+          </div>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            style={{ paddingTop: 40 }}>
+            style={{ paddingTop: 72 }}>
             {children}
           </motion.div>
         </>

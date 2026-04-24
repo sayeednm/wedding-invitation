@@ -115,12 +115,9 @@ export default function OpeningCover({ invitation, guestName, onOpen, accentColo
                 </motion.h1>
               </div>
 
-              <motion.div initial={{ opacity: 0, scale: 0, rotate: -180 }} animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.9, ease: [0.34, 1.56, 0.64, 1] }} className="my-2">
-                <svg width="36" height="36" viewBox="0 0 36 36">
-                  <path d="M18 2 L21 15 L34 18 L21 21 L18 34 L15 21 L2 18 L15 15 Z" fill={accentColor} opacity="0.85"/>
-                  <circle cx="18" cy="18" r="4" fill={accentColor} opacity="0.5"/>
-                </svg>
+                <span style={{ fontFamily: 'Great Vibes, cursive', fontSize: 'clamp(36px, 10vw, 52px)', color: accentColor, lineHeight: 1, textShadow: `0 0 40px ${accentColor}60` }}>&amp;</span>
               </motion.div>
 
               <div className="mt-1" style={{ paddingBottom: '0.2em' }}>
