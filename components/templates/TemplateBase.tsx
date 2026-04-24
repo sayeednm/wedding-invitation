@@ -17,6 +17,7 @@ import PhotoFrame from '@/components/invitation/PhotoFrame'
 import PhotoDecoration from '@/components/invitation/PhotoDecoration'
 import CoupleSectionV2 from '@/components/invitation/CoupleSectionV2'
 import WeddingGiftSection from '@/components/invitation/WeddingGiftSection'
+import SaveDateButton from '@/components/invitation/SaveDateButton'
 import type { ReactNode } from 'react'
 
 interface ThemeConfig {
@@ -157,6 +158,11 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
                 <CountdownTimer eventDate={invitation.event_date} accentColor={accent}/>
               </SectionReveal>
             )}
+            <SectionReveal direction="fade" delay={0.3}>
+              <div className="flex justify-center mt-4">
+                <SaveDateButton invitation={invitation} accentColor={accent}/>
+              </div>
+            </SectionReveal>
           </div>
         </SectionWrapper>
       ),
