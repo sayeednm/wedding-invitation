@@ -47,9 +47,9 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     akad_location: invitation.akad_location || '',
     akad_maps_url: invitation.akad_maps_url || '',
     music_url: invitation.music_url || '',
-    opening_text: invitation.opening_text || '',
-    quran_verse: invitation.quran_verse || '',
-    quran_surah: invitation.quran_surah || '',
+    opening_text: invitation.opening_text || 'Assalamu\'alaikum Warahmatullahi Wabarakatuh\n\nMaha suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.',
+    quran_verse: invitation.quran_verse || 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri supaya kamu mendapat ketenangan hati.',
+    quran_surah: invitation.quran_surah || 'QS. Ar-Rum: 21',
     dresscode_color: invitation.dresscode_color || '',
     dresscode_note: invitation.dresscode_note || '',
     dresscode_enabled: invitation.dresscode_enabled ?? false,
@@ -495,12 +495,6 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
         )}
       </div>
 
-      <button type="submit" disabled={saving}
-        className="w-full py-3 rounded-full font-medium transition-all hover:opacity-90 disabled:opacity-50"
-        style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
-        {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
-      </button>
-
       {/* Music Picker */}
       <MusicPicker
         currentUrl={form.music_url}
@@ -536,6 +530,12 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
         userId={userId}
         onPhotosChange={(photos) => onPreview?.({ gallery: photos })}
       />
+
+      <button type="submit" disabled={saving}
+        className="w-full py-3 rounded-full font-medium transition-all hover:opacity-90 disabled:opacity-50"
+        style={{ background: 'linear-gradient(135deg, var(--gold), var(--gold-light))', color: '#0D1B2A' }}>
+        {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
+      </button>
     </form>
   )
 }
