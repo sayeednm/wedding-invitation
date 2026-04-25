@@ -41,31 +41,85 @@ export default function GallerySection({ photos, accentColor }: Props) {
 
   return (
     <div className="px-4 py-8">
-      <div className="grid grid-cols-3 gap-1.5">
-        {photos.map((photo, i) => (
-          <motion.div
-            key={photo.id}
-            initial={{ opacity: 0, scale: 0.85 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            onClick={() => { setDirection(0); setSelectedIdx(i) }}
-            className="relative cursor-pointer overflow-hidden rounded-lg"
-            style={{ aspectRatio: '1', border: `1px solid ${accentColor}20` }}>
-            <img
-              src={photo.photo_url}
-              alt={photo.caption || ''}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"
-              style={{ background: `${accentColor}25` }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-              </svg>
-            </div>
-          </motion.div>
-        ))}
+      <div className="flex flex-col gap-1.5">
+        {photos.map((photo, i) => {
+          const isFirst = i === 0
+          const isInPair = !isFirst
+
+          // Foto pertama full width
+          if (isFirst) return (
+            <motion.div
+              key={photo.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              onClick={() => { setDirection(0); setSelectedIdx(0) }}
+              className="relative cursor-pointer overflow-hidden rounded-lg w-full"
+              style={{ aspectRatio: '16/9', border: `1px solid ${accentColor}20` }}>
+              <img src={photo.photo_url} alt={photo.caption || ''}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy"/>
+              <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"
+                style={{ background: `${accentColor}25` }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </div>
+            </motion.div>
+          )
+
+          // Sisanya 2 kolom — render pasangan
+          if (isInPair && i % 2 === 1) {
+            const next = photos[i + 1]
+
+            // Kalau tidak ada pasangan (foto terakhir ganjil) — full width
+            if (!next) return (
+              <motion.div
+                key={photo.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => { setDirection(0); setSelectedIdx(i) }}
+                className="relative cursor-pointer overflow-hidden rounded-lg w-full"
+                style={{ aspectRatio: '16/9', border: `1px solid ${accentColor}20` }}>
+                <img src={photo.photo_url} alt={photo.caption || ''}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy"/>
+                <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"
+                  style={{ background: `${accentColor}25` }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                  </svg>
+                </div>
+              </motion.div>
+            )
+            return (
+              <div key={photo.id} className="grid grid-cols-2 gap-1.5">
+                {[photo, next].filter(Boolean).map((p, j) => (
+                  <motion.div
+                    key={p.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (i + j) * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={() => { setDirection(0); setSelectedIdx(i + j) }}
+                    className="relative cursor-pointer overflow-hidden rounded-lg"
+                    style={{ aspectRatio: '1', border: `1px solid ${accentColor}20` }}>
+                    <img src={p.photo_url} alt={p.caption || ''}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy"/>
+                    <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center"
+                      style={{ background: `${accentColor}25` }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                      </svg>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )
+          }
+          return null
+        })}
       </div>
 
       {/* Lightbox */}

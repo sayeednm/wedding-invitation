@@ -197,11 +197,11 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
     }] : []),
 
     // 8. Wedding Gift
-    ...(invitation.digital_gifts?.length ? [{
+    ...(invitation.digital_gifts?.length || invitation.gift_address ? [{
       id: 'gift', label: 'Wedding Gift',
       content: (
         <SectionWrapper bg={bg} accent={accent}>
-          <WeddingGiftSection gifts={invitation.digital_gifts!} accentColor={accent}/>
+          <WeddingGiftSection gifts={invitation.digital_gifts || []} accentColor={accent} invitation={invitation}/>
         </SectionWrapper>
       ),
     }] : []),
@@ -441,7 +441,7 @@ export function PreviewMode({ invitation, accent, bgGradient, CornerComponent }:
       {/* Amplop digital */}
       {invitation.digital_gifts && invitation.digital_gifts.length > 0 && (
         <div className="px-2">
-          <WeddingGiftSection gifts={invitation.digital_gifts} accentColor={accent}/>
+          <WeddingGiftSection gifts={invitation.digital_gifts} accentColor={accent} invitation={invitation}/>
         </div>
       )}
 

@@ -45,6 +45,9 @@ export interface Invitation {
   video_url: string | null
   love_story: string | null
   live_streaming_url: string | null
+  gift_recipient_name: string | null
+  gift_recipient_phone: string | null
+  gift_address: string | null
   is_published: boolean
   is_archived: boolean
   created_at: string

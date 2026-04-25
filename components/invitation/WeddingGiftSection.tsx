@@ -47,6 +47,66 @@ function CardChip() {
   )
 }
 
+function GiftAddressCard({ name, phone, address, accentColor }: { name: string | null; phone: string | null; address: string; accentColor: string }) {
+  const [copied, setCopied] = useState(false)
+
+  function copyAddress() {
+    navigator.clipboard.writeText(address)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="rounded-2xl p-5 relative overflow-hidden"
+      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: `radial-gradient(ellipse at top right, ${accentColor}08, transparent 60%)` }}/>
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm font-medium" style={{ color: accentColor }}>Kado</p>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="1.5" strokeLinecap="round">
+            <path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
+          </svg>
+        </div>
+
+        {(name || phone) && (
+          <div className="mb-3">
+            <p className="text-xs text-gray-500 mb-1">Nama Penerima</p>
+            <p className="text-sm italic" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'Cormorant Garamond, serif', fontSize: 15 }}>
+              {name}{phone && ` (${phone})`}
+            </p>
+          </div>
+        )}
+
+        <div className="flex items-end justify-between gap-3">
+          <div className="flex-1">
+            <p className="text-xs text-gray-500 mb-1">Alamat Penerima</p>
+            <p className="text-sm italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'Cormorant Garamond, serif', fontSize: 15 }}>
+              {address}
+            </p>
+          </div>
+          <button onClick={copyAddress}
+            className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-all"
+            style={{ background: copied ? 'rgba(74,222,128,0.2)' : `${accentColor}20`, color: copied ? '#4ade80' : accentColor, border: `1px solid ${copied ? 'rgba(74,222,128,0.3)' : accentColor + '30'}` }}>
+            {copied ? <>✓ Disalin</> : (
+              <>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+                Salin
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 function BankCard({ gift, accentColor }: { gift: DigitalGift; accentColor: string }) {
   const [copied, setCopied] = useState(false)
 
@@ -125,8 +185,10 @@ function BankCard({ gift, accentColor }: { gift: DigitalGift; accentColor: strin
   )
 }
 
-export default function WeddingGiftSection({ gifts, accentColor }: Props) {
-  if (!gifts.length) return null
+export default function WeddingGiftSection({ gifts, accentColor, invitation }: Props & { invitation?: { gift_recipient_name?: string | null; gift_recipient_phone?: string | null; gift_address?: string | null } }) {
+  const [revealed, setRevealed] = useState(false)
+
+  if (!gifts.length && !invitation?.gift_address) return null
 
   return (
     <div className="px-5 py-8">
@@ -141,11 +203,34 @@ export default function WeddingGiftSection({ gifts, accentColor }: Props) {
         </p>
       </motion.div>
 
-      <div className="space-y-4">
-        {gifts.map(gift => (
-          <BankCard key={gift.id} gift={gift} accentColor={accentColor}/>
-        ))}
-      </div>
+      {!revealed ? (
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="flex justify-center">
+          <button onClick={() => setRevealed(true)}
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-sm font-medium transition-all hover:scale-105 active:scale-95"
+            style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}35`, boxShadow: `0 0 20px ${accentColor}15` }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            Klik di Sini
+          </button>
+        </motion.div>
+      ) : (
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+          className="space-y-4">
+          {gifts.map(gift => (
+            <BankCard key={gift.id} gift={gift} accentColor={accentColor}/>
+          ))}
+          {invitation?.gift_address && (
+            <GiftAddressCard
+              name={invitation.gift_recipient_name || null}
+              phone={invitation.gift_recipient_phone || null}
+              address={invitation.gift_address}
+              accentColor={accentColor}
+            />
+          )}
+        </motion.div>
+      )}
     </div>
   )
 }

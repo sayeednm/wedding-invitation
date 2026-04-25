@@ -62,6 +62,9 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
     video_url: invitation.video_url || '',
     love_story: invitation.love_story || '',
     live_streaming_url: invitation.live_streaming_url || '',
+    gift_recipient_name: invitation.gift_recipient_name || '',
+    gift_recipient_phone: invitation.gift_recipient_phone || '',
+    gift_address: invitation.gift_address || '',
     slug: invitation.slug || '',
   })
   const [uploading, setUploading] = useState(false)
@@ -126,6 +129,9 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
       akad_date: form.akad_date ? new Date(form.akad_date).toISOString() : null,
       dresscode_color: form.dresscode_enabled ? form.dresscode_color : null,
       dresscode_note: form.dresscode_enabled ? form.dresscode_note : null,
+      gift_recipient_name: form.gift_recipient_name || null,
+      gift_recipient_phone: form.gift_recipient_phone || null,
+      gift_address: form.gift_address || null,
     }
     // Update preview immediately with all fields
     onPreview?.(updates)
@@ -333,6 +339,27 @@ export default function EditorForm({ invitation, onSave, onPreview, saving, user
           <label className={labelClass}>URL Live Streaming</label>
           <input name="live_streaming_url" value={form.live_streaming_url} onChange={handleChange}
             className={inputClass} style={borderStyle} placeholder="https://youtube.com/live/..." />
+        </div>
+      </div>
+
+      {/* Kado */}
+      <div className="glass rounded-2xl p-5 space-y-4">
+        <h3 className="font-serif-elegant text-lg" style={{ color: 'var(--gold)' }}>Alamat Kado</h3>
+        <p className="text-xs text-gray-500">Opsional — isi jika ingin tamu bisa kirim kado fisik</p>
+        <div>
+          <label className={labelClass}>Nama Penerima</label>
+          <input name="gift_recipient_name" value={form.gift_recipient_name} onChange={handleChange}
+            className={inputClass} style={borderStyle} placeholder="Nama / Pasangan" />
+        </div>
+        <div>
+          <label className={labelClass}>Nomor HP Penerima</label>
+          <input name="gift_recipient_phone" value={form.gift_recipient_phone} onChange={handleChange}
+            className={inputClass} style={borderStyle} placeholder="+6281234567890" />
+        </div>
+        <div>
+          <label className={labelClass}>Alamat Lengkap</label>
+          <textarea name="gift_address" value={form.gift_address} onChange={handleChange} rows={3}
+            className={inputClass} style={borderStyle} placeholder="Jl. Contoh No. 1, Kota, Provinsi" />
         </div>
       </div>
 
