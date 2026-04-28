@@ -20,7 +20,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <Script
         src={process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL}
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
       <DashboardNav profile={profile} />
       <main className="pt-20 px-4 md:px-8 pb-16 max-w-7xl mx-auto">
