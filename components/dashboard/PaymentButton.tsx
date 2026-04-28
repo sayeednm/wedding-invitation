@@ -24,12 +24,12 @@ export default function PaymentButton({ userId, userEmail }: Props) {
 
       if (data.token) {
         // @ts-ignore - Midtrans Snap loaded via script
-        if (!window.snap) {
+        if (!(window as any).snap) {
           alert('Halaman pembayaran belum siap, coba refresh halaman.')
           setLoading(false)
           return
         }
-        window.snap.pay(data.token, {
+        ;(window as any).snap.pay(data.token, {
           onSuccess: () => { router.push('/dashboard/welcome') },
           onPending: () => { setLoading(false) },
           onError: () => { setLoading(false) },
