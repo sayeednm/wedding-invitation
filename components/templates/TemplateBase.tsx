@@ -129,9 +129,23 @@ export function buildSections(invitation: Invitation, config: ThemeConfig) {
         <SectionWrapper bg={bg} accent={accent}>
           {invitation.opening_text && (
             <SectionReveal direction="blur" className="mb-6">
-              <p className="text-center" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(13px, 3.5vw, 17px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.72)', lineHeight: 1.9 }}>
-                {invitation.opening_text}
-              </p>
+              {(() => {
+                const lines = invitation.opening_text.split('\n').filter(Boolean)
+                const first = lines[0]
+                const rest = lines.slice(1).join('\n').trim()
+                return (
+                  <>
+                    <p className="text-center mb-3" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(14px, 3.5vw, 18px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.9)', lineHeight: 1.6 }}>
+                      {first}
+                    </p>
+                    {rest && (
+                      <p className="text-center" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(12px, 3vw, 15px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.65)', lineHeight: 1.9 }}>
+                        {rest}
+                      </p>
+                    )}
+                  </>
+                )
+              })()}
             </SectionReveal>
           )}
           <CoupleSectionV2 invitation={invitation} accentColor={accent}/>
